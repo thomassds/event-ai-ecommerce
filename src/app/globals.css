@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #7e4df6; /* brand-600 */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Brand Colors (Primary Purple) */
+  --color-brand-50: #faf8ff;
+  --color-brand-100: #f3efff;
+  --color-brand-200: #e8ddff;
+  --color-brand-300: #d6c3ff;
+  --color-brand-400: #bd9eff;
+  --color-brand-500: #a075ff;
+  --color-brand-600: #7e4df6;
+  --color-brand-700: #6833e2;
+  --color-brand-800: #5715be;
+  --color-brand-900: #4a1498;
+
+  /* Secondary Colors (Pink/Magenta) */
+  --color-secondary-50: #fef7ff;
+  --color-secondary-100: #fce8ff;
+  --color-secondary-200: #f8d1ff;
+  --color-secondary-300: #f2abff;
+  --color-secondary-400: #e876ff;
+  --color-secondary-500: #da42ff;
+  --color-secondary-600: #c221e7;
+  --color-secondary-700: #a216c3;
+  --color-secondary-800: #85139f;
+  --color-secondary-900: #6e1483;
+
+  /* Blue Colors */
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+
+  /* Neutral Colors (Grays) */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+
+  /* Success Colors (Green) */
+  --color-success-50: #f0fdf4;
+  --color-success-100: #dcfce7;
+  --color-success-200: #bbf7d0;
+  --color-success-300: #86efac;
+  --color-success-400: #4ade80;
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-success-700: #15803d;
+  --color-success-800: #166534;
+  --color-success-900: #14532d;
+
+  /* Warning Colors (Yellow) */
+  --color-warning-50: #fefce8;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-300: #facc15;
+  --color-warning-400: #eab308;
+  --color-warning-500: #ca8a04;
+  --color-warning-600: #a16207;
+  --color-warning-700: #854d0e;
+  --color-warning-800: #713f12;
+  --color-warning-900: #422006;
+
+  /* Dark Warning Colors (Brown) */
+  --color-dark-warning-50: #fdf6e3;
+  --color-dark-warning-100: #f7e6d3;
+  --color-dark-warning-200: #efcc9c;
+  --color-dark-warning-300: #e4a853;
+  --color-dark-warning-400: #d4841f;
+  --color-dark-warning-500: #b86207;
+  --color-dark-warning-600: #9a4a02;
+  --color-dark-warning-700: #7c3803;
+  --color-dark-warning-800: #652b05;
+  --color-dark-warning-900: #541f04;
+
+  /* Danger Colors (Red) */
+  --color-danger-50: #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-200: #fecaca;
+  --color-danger-300: #fca5a5;
+  --color-danger-400: #f87171;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-danger-800: #991b1b;
+  --color-danger-900: #7f1d1d;
+
+  /* Gray alternative */
+  --color-gray-50: var(--color-neutral-50);
+  --color-gray-100: var(--color-neutral-100);
+  --color-gray-200: var(--color-neutral-200);
+  --color-gray-300: var(--color-neutral-300);
+  --color-gray-400: var(--color-neutral-400);
+  --color-gray-500: var(--color-neutral-500);
+  --color-gray-600: var(--color-neutral-600);
+  --color-gray-700: var(--color-neutral-700);
+  --color-gray-800: var(--color-neutral-800);
+  --color-gray-900: var(--color-neutral-900);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Montserrat", Helvetica, sans-serif;
+}
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Horizontal scroll containers with proper snap behavior */
+.horizontal-scroll {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  overscroll-behavior-x: contain; /* Prevent page scroll on iOS */
+}
+
+.horizontal-scroll-item {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* Container to prevent iOS sideways page scroll */
+.horizontal-scroll-container {
+  margin-left: -1rem;
+  margin-right: -1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .horizontal-scroll-container {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Focus ring improvements */
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+}
+
+/* Line clamp utility for text truncation */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Design System Classes */
+
+/* Subheader Background */
+.subheader-bg {
+  background-color: #e5d5f5; /* Lilás claro do design system */
+}
+
+/* Subheader Text Color */
+.subheader-text {
+  color: #5400d6; /* Roxo do design system */
+}
+
+/* Typography - Subtitle 2 Stronger */
+.subtitle-2-stronger {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.5;
+  letter-spacing: 0%;
+}
