@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import { CategoryList, Header } from "@/components";
+import { CategoryList, Footer, Header } from "@/components";
+import { footerMock } from "@/components/footer/footer-mock";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -151,9 +152,11 @@ export default async function RootLayout({
         <Header banners={[]} />
         <CategoryList categories={categories} />
 
-        <div className="w-full max-w-7xl flex flex-col mx-auto flex-1">
+        <div className="w-full max-w-7xl flex flex-col mx-auto flex-1 pb-10">
           <main className={`flex-1 transition-all pt-6`}>{children}</main>
         </div>
+
+        <Footer data={footerMock} />
       </body>
     </html>
   );
