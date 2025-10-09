@@ -52,6 +52,14 @@ export const Header = ({ banners }: { banners: any[] }) => {
           <div className="flex h-16 items-center gap-4 ">
             <IconedButton
               icon={<UserCircleIcon size={30} />}
+              upperText="Meus Eventos "
+              lowerText="ou Criar Evento"
+              tooltipText="Area do Produtor"
+              onClick={() => router.push("/auth")}
+            />
+
+            <IconedButton
+              icon={<UserCircleIcon size={30} />}
               upperText="Faça login"
               lowerText="ou Cadastre-se"
               tooltipText="Login ou Cadastro"

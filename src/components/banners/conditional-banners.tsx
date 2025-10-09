@@ -7,7 +7,7 @@ import { Banners } from "./banners";
 export const ConditionalBanner = ({ banners }: { banners: Banner[] }) => {
   const pathname = usePathname();
 
-  if (!["/", "/auth"].includes(pathname)) {
+  if (!["/", "/auth", "/esqueci-a-senha"].includes(pathname)) {
     return null;
   }
 
