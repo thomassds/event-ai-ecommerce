@@ -27,7 +27,7 @@ export const CategoryList = ({ categories }: { categories: Category[] }) => {
               role="none"
             >
               <Link
-                href={`/categorias/${category.slug}`}
+                href={`/eventos?category=${category.slug}`}
                 className="transition-all duration-300 ease-in-out text-gray-700 hover:text-black hover:underline hover:underline-offset-4 hover:font-medium"
                 role="menuitem"
               >

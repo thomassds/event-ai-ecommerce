@@ -6,6 +6,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   iconRight?: React.ReactNode;
 }
 
+export type InputFormState = "default" | "success" | "warning" | "error";
+
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   { iconLeft, iconRight, className, ...props },
   ref

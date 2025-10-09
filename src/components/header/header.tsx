@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ShieldIcon,
   CreditCardIcon,
@@ -8,8 +10,11 @@ import {
 import Image from "next/image";
 import { IconedButton } from "../buttons";
 import { SearchInput } from "../inputs";
+import { useRouter } from "next/navigation";
 
 export const Header = ({ banners }: { banners: any[] }) => {
+  const router = useRouter();
+
   return (
     <header className="w-full bg-[#5400D6] shadow flex flex-col items-center">
       <div className="w-full max-w-7xl p-2 flex flex-col gap-6">
@@ -31,12 +36,13 @@ export const Header = ({ banners }: { banners: any[] }) => {
 
         <div className="w-full flex justify-between items-center gap-4">
           <Image
+            onClick={() => router.push("/")}
             src="/white-logo.png"
             alt="logo"
             width={250}
             height={70}
             priority
-            style={{ width: "auto", height: "auto" }}
+            style={{ cursor: "pointer", width: "auto", height: "auto" }}
           />
 
           <div className="flex-1">
@@ -49,6 +55,7 @@ export const Header = ({ banners }: { banners: any[] }) => {
               upperText="Faça login"
               lowerText="ou Cadastre-se"
               tooltipText="Login ou Cadastro"
+              onClick={() => router.push("/auth")}
             />
 
             <IconedButton

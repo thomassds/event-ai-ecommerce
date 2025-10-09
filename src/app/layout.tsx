@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import { Banners, CategoryList, Footer, Header } from "@/components";
+import { CategoryList, Footer, Header } from "@/components";
 import { footerMock } from "@/components/footer/footer-mock";
 import { Banner } from "@/interfaces/banner";
+import { ConditionalBanner } from "@/components/banners/conditional-banners";
+import { banners } from "@/mocks";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -75,7 +77,6 @@ export default async function RootLayout({
 }) {
   const tenantName = "My Ticket";
 
-  // Combined Organization + LocalBusiness schema for better local SEO
   const businessSchema = {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness"],
@@ -136,49 +137,6 @@ export default async function RootLayout({
     { id: "5", name: "Basquete", slug: "basquete" },
   ];
 
-  const banners: Banner[] = [
-    {
-      url: "/banners/banner_beach_01.png",
-      alt: "Banner 1",
-      title: "Promoção de Verão",
-      description: "Descontos imperdíveis em ingressos para eventos de verão!",
-      link: "/promocoes/verao",
-      priority: true,
-    },
-    {
-      url: "/banners/banner_beach_02.png",
-      alt: "Banner 2",
-      title: "Promoção de Verão",
-      description: "Descontos imperdíveis em ingressos para eventos de verão!",
-      link: "/promocoes/verao",
-      priority: true,
-    },
-    {
-      url: "/banners/banner_beach_03.jpg",
-      alt: "Banner 3",
-      title: "Promoção de Verão",
-      description: "Descontos imperdíveis em ingressos para eventos de verão!",
-      link: "/promocoes/verao",
-      priority: false,
-    },
-    {
-      url: "/banners/banner_beach_04.png",
-      alt: "Banner 4",
-      title: "Promoção de Verão",
-      description: "Descontos imperdíveis em ingressos para eventos de verão!",
-      link: "/promocoes/verao",
-      priority: false,
-    },
-    {
-      url: "/banners/banner_beach_05.png",
-      alt: "Banner 5",
-      title: "Promoção de Verão",
-      description: "Descontos imperdíveis em ingressos para eventos de verão!",
-      link: "/promocoes/verao",
-      priority: false,
-    },
-  ];
-
   return (
     <html suppressHydrationWarning>
       <head>
@@ -196,18 +154,8 @@ export default async function RootLayout({
         <Header banners={[]} />
         <CategoryList categories={categories} />
 
-        <Banners
-          intervalTime={5000}
-          ariaLabel="Banners promocionais de eventos"
-          banners={banners.map((banner) => ({
-            url: banner.url,
-            alt: banner.alt,
-            title: banner.title,
-            description: banner.description,
-            link: banner.link,
-            priority: banner.priority,
-          }))}
-        />
+        <ConditionalBanner banners={banners} />
+
         <div className="w-full max-w-7xl flex flex-col mx-auto flex-1 pb-10">
           <main className={`flex-1 transition-all pt-6`}>{children}</main>
         </div>
