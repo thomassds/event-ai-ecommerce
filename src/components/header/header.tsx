@@ -7,11 +7,12 @@ import {
 } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import { IconedButton } from "../buttons";
+import { SearchInput } from "../inputs";
 
 export const Header = ({ banners }: { banners: any[] }) => {
   return (
     <header className="w-full bg-[#5400D6] shadow flex flex-col items-center">
-      <div className="w-full max-w-7xl p-2 gap-4">
+      <div className="w-full max-w-7xl p-2 flex flex-col gap-6">
         <div className="w-full flex justify-between">
           <div className="flex items-center gap-2">
             <CreditCardIcon size={16} weight="regular" color="white" />
@@ -28,7 +29,7 @@ export const Header = ({ banners }: { banners: any[] }) => {
           </div>
         </div>
 
-        <div className="w-full flex justify-between items-center">
+        <div className="w-full flex justify-between items-center gap-4">
           <Image
             src="/white-logo.png"
             alt="logo"
@@ -38,7 +39,11 @@ export const Header = ({ banners }: { banners: any[] }) => {
             style={{ width: "auto", height: "auto" }}
           />
 
-          <div className="flex justify-between h-16 items-center gap-4">
+          <div className="flex-1">
+            <SearchInput />
+          </div>
+
+          <div className="flex h-16 items-center gap-4 ">
             <IconedButton
               icon={<UserCircleIcon size={30} />}
               upperText="Faça login"
@@ -53,12 +58,12 @@ export const Header = ({ banners }: { banners: any[] }) => {
               tooltipText="WhatsApp: (11) 4003-3063"
             />
 
-            <IconedButton
+            {/* <IconedButton
               icon={<ShoppingCartSimpleIcon size={30} />}
               upperText=""
               lowerText=""
               tooltipText="Meu Carrinho"
-            />
+            /> */}
           </div>
         </div>
       </div>
