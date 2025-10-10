@@ -1,7 +1,6 @@
 export * from "./header";
 export * from "./buttons";
 export * from "./categories";
-export * from "./events";
 export * from "./footer";
 export * from "./inputs";
 export * from "./banners";
@@ -12,3 +11,4 @@ export * from "./forms";
 export * from "./errors";
 export * from "./selectors";
 export * from "./accordions";
+export * from "./skeletons";

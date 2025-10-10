@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { HouseIcon } from "@phosphor-icons/react/dist/ssr";
+import { useSearchParams } from "next/navigation";
 
 interface BreadcrumbItem {
   label: string;
@@ -62,6 +65,12 @@ const normalizeCategorySlug = (category: string): string => {
   return category.toLowerCase().replace(/[^a-z0-9]/g, "-");
 };
 
+const showCategoryInBreadcrumb = (category: string): string => {
+  return category
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
 export const EventBreadcrumb = ({
   eventTitle,
   category = "Eventos",
@@ -94,6 +103,40 @@ export const EventBreadcrumb = ({
 
   return (
     <div className={`py-4 bg-white ${className}`}>
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <Breadcrumb items={items} />
+      </div>
+    </div>
+  );
+};
+
+export const EventSearchBreadcrumb = () => {
+  const searchParams = useSearchParams();
+
+  const items: BreadcrumbItem[] = [
+    {
+      label: "Página Inicial",
+      href: "/",
+      icon: (
+        <div className="">
+          <HouseIcon size={16} color="#5400D6" />
+        </div>
+      ),
+    },
+  ];
+
+  const category = searchParams.get("category");
+  if (category !== null) {
+    const showCategory = showCategoryInBreadcrumb(category);
+
+    items.push({
+      label: showCategory,
+      href: `/eventos?category=${category}`,
+    });
+  }
+
+  return (
+    <div className={`py-4 bg-white`}>
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <Breadcrumb items={items} />
       </div>

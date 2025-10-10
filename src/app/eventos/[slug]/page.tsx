@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import { EventDetailSkeleton } from "./event-detail-skeleton";
 import {
   Banners,
   EventAboutCard,
   EventBreadcrumb,
+  EventDetailPageSkeleton,
   EventInfoCard,
   EventTicketCard,
   OrderSummaryCard,
@@ -33,7 +33,7 @@ export default async function EventDetail({
 
   return (
     <div className="w-full flex flex-col">
-      <Suspense fallback={<EventDetailSkeleton />}>
+      <Suspense fallback={<EventDetailPageSkeleton />}>
         <div className="min-h-screen bg-white">
           <div className="md:hidden px-4 py-1 border-b border-gray-300">
             <div className="max-w-7xl mx-auto">

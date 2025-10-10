@@ -5,8 +5,8 @@ import { type Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
-    const title = `My Ticket - Compre Ingressos Online para Eventos, Shows e Espetáculos`;
-    const description = `My Ticket - Compre ingressos online para eventos, shows e espetáculos. Encontre os melhores eventos na sua cidade com segurança e praticidade!`;
+    const title = `Beach Ticket - Compre Ingressos Online para Eventos, Shows e Espetáculos`;
+    const description = `Beach Ticket - Compre ingressos online para eventos, shows e espetáculos. Encontre os melhores eventos na sua cidade com segurança e praticidade!`;
 
     return {
       title,
@@ -16,14 +16,14 @@ export async function generateMetadata(): Promise<Metadata> {
         description,
         type: "website",
         locale: "pt_BR",
-        siteName: "myticket",
-        url: "https://www.myticket.com.br",
+        siteName: "beachticket",
+        url: "https://www.beachticket.com.br",
         images: [
           {
             url: "/logo.svg",
             width: 1200,
             height: 630,
-            alt: `MyTicket - Plataforma de Ingressos Online`,
+            alt: `beachticket - Plataforma de Ingressos Online`,
           },
         ],
       },
@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
         images: [""],
       },
       alternates: {
-        canonical: "https://www.myticket.com.br",
+        canonical: "https://www.beachticket.com.br",
       },
       robots: {
         index: true,
@@ -44,9 +44,9 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch (error) {
     return {
       title:
-        "My Ticket - Compre Ingressos Online para Eventos, Shows e Espetáculos",
+        "Beach Ticket - Compre Ingressos Online para Eventos, Shows e Espetáculos",
       description:
-        "My Ticket - Compre ingressos online para eventos, shows e espetáculos. Encontre os melhores eventos na sua cidade com segurança e praticidade!",
+        "Beach Ticket - Compre ingressos online para eventos, shows e espetáculos. Encontre os melhores eventos na sua cidade com segurança e praticidade!",
       robots: {
         index: true,
         follow: true,

@@ -6,8 +6,8 @@ import { authBanner } from "@/mocks";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Autenticação - My Ticket",
-  description: "Autenticação - My Ticket",
+  title: "Autenticação - Beach Ticket",
+  description: "Autenticação - Beach Ticket",
 };
 
 export default function Auth() {

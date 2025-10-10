@@ -14,8 +14,8 @@ const montserrat = Montserrat({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const tenantName = "myticket";
-  const baseUrl = "https://www.myticket.com.br";
+  const tenantName = "beachticket";
+  const baseUrl = "https://www.beachticket.com.br";
   const description = `${tenantName} - Compre ingressos online para eventos, shows e espetáculos. Encontre os melhores eventos na sua cidade com segurança e praticidade!`;
 
   return {
@@ -73,13 +73,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const tenantName = "My Ticket";
+  const tenantName = "Beach Ticket";
 
   const businessSchema = {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness"],
     name: tenantName,
-    url: "https://www.myticket.com.br",
+    url: "https://www.beachticket.com.br",
     logo: "/logo.svg",
     image: "/logo.svg",
     telephone: "(11) 4003-3063",
@@ -114,14 +114,14 @@ export default async function RootLayout({
       name: "Brazil",
     },
     sameAs: [
-      "https://www.facebook.com/myticket",
-      "https://www.instagram.com/myticket",
+      "https://www.facebook.com/beachticket",
+      "https://www.instagram.com/beachticket",
     ],
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `https://www.myticket.com.br/eventos?q={search_term_string}`,
+        urlTemplate: `https://www.beachticket.com.br/eventos?q={search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },
