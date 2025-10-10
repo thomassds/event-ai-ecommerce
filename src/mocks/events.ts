@@ -1,4 +1,4 @@
-import { Event } from "@/interfaces";
+import { Event, EventDetails } from "@/interfaces";
 
 export const events: Event[] = [
   {
@@ -11,7 +11,8 @@ export const events: Event[] = [
     price: 50,
     image: "/events/beach01.jpg",
     title: "Campeonato de Beach Tennis na Praia",
-    link: "/events/beach-tennis",
+    link: "/eventos/beach-tennis",
+    salesEndDate: "2025-09-10T18:00:00Z",
   },
   {
     id: 2,
@@ -23,7 +24,8 @@ export const events: Event[] = [
     price: 50,
     image: "/events/beach02.jpg",
     title: "Campeonato de Beach Tennis na Praia",
-    link: "/events/futevolei",
+    link: "/eventos/futevolei",
+    salesEndDate: "2025-09-10T18:00:00Z",
   },
   {
     id: 3,
@@ -35,7 +37,8 @@ export const events: Event[] = [
     price: 50,
     image: "events/beach03.jpg",
     title: "Campeonato de Beach Tennis 6k Premio",
-    link: "/events/volei-de-areia",
+    link: "/eventos/volei-de-areia",
+    salesEndDate: "2025-09-10T18:00:00Z",
   },
   {
     id: 4,
@@ -47,7 +50,8 @@ export const events: Event[] = [
     price: 50,
     image: "/events/beach01.jpg",
     title: "Campeonato de Beach Tennis na Praia",
-    link: "/events/beach-tennis",
+    link: "/eventos/beach-tennis",
+    salesEndDate: "2025-09-10T18:00:00Z",
   },
   {
     id: 5,
@@ -59,7 +63,8 @@ export const events: Event[] = [
     price: 50,
     image: "/events/beach02.jpg",
     title: "Campeonato de Beach Tennis na Praia",
-    link: "/events/futevolei",
+    link: "/eventos/futevolei",
+    salesEndDate: "2025-09-10T18:00:00Z",
   },
   {
     id: 6,
@@ -71,7 +76,8 @@ export const events: Event[] = [
     price: 50,
     image: "events/beach03.jpg",
     title: "Campeonato de Beach Tennis 6k Premio",
-    link: "/events/volei-de-areia",
+    link: "/eventos/volei-de-areia",
+    salesEndDate: "2025-09-10T18:00:00Z",
   },
   {
     id: 7,
@@ -83,7 +89,8 @@ export const events: Event[] = [
     price: 50,
     image: "/events/beach01.jpg",
     title: "Campeonato de Beach Tennis na Praia",
-    link: "/events/beach-tennis",
+    link: "/eventos/beach-tennis",
+    salesEndDate: "2025-09-10T18:00:00Z",
   },
   {
     id: 8,
@@ -95,7 +102,8 @@ export const events: Event[] = [
     price: 50,
     image: "/events/beach02.jpg",
     title: "Campeonato de Beach Tennis na Praia",
-    link: "/events/futevolei",
+    link: "/eventos/futevolei",
+    salesEndDate: "2025-09-10T18:00:00Z",
   },
   {
     id: 9,
@@ -107,6 +115,169 @@ export const events: Event[] = [
     price: 50,
     image: "events/beach03.jpg",
     title: "Campeonato de Beach Tennis 6k Premio",
-    link: "/events/volei-de-areia",
+    link: "/eventos/volei-de-areia",
+    salesEndDate: "2025-09-10T18:00:00Z",
+  },
+];
+
+export const eventsDetails: EventDetails[] = [
+  {
+    id: "1",
+    slug: "beach-tennis",
+    title: "Campeonato de Beach Tennis na Praia",
+    description:
+      "Um emocionante campeonato de Beach Tennis realizado em uma das mais belas praias da região. Venha participar desta competição incrível e mostrar suas habilidades no esporte que mais cresce no Brasil!",
+    image: "/events/beach01.jpg",
+    imageMapEvent: "/events/beach01.jpg",
+    date: {
+      start: "2025-09-10T09:00:00Z",
+      end: "2025-09-11T18:00:00Z",
+      formatted: "10 a 11 de Setembro de 2025",
+    },
+    location: {
+      name: "Arena Beach Tennis",
+      address: "Av. Beira Mar, 123",
+      city: "Florianópolis",
+      state: "SC",
+    },
+    prices: {
+      min: "R$ 50,00",
+      max: "R$ 100,00",
+      label: "A partir de R$ 50,00",
+    },
+    salesEndDate: "2025-09-10T18:00:00Z",
+    categories: ["Beach Tennis", "Esportes"],
+    organizer: {
+      name: "Beach Sports Eventos",
+      contact: "(48) 99999-9999",
+    },
+    ticketTypes: [
+      {
+        id: "1",
+        name: "Ingresso Individual",
+        price: "R$ 50,00",
+        available: true,
+        description: "Acesso ao evento para 1 pessoa",
+      },
+      {
+        id: "2",
+        name: "Dupla",
+        price: "R$ 90,00",
+        available: true,
+        description: "Acesso ao evento para 2 pessoas (desconto de 10%)",
+      },
+    ],
+    eventType: "multi-day",
+    fullAddress: "Av. Beira Mar, 123 - Florianópolis, SC",
+    reservationTime: "15 minutos",
+    paymentTime: "30 minutos",
+    videoData: {
+      videoUrl: "https://www.youtube.com/watch?v=h9XR3obZiVQ",
+      thumbnailUrl: "/events/beach-tennis-thumbnail.jpg",
+      title: "Introdução ao Campeonato de Beach Tennis",
+    },
+  },
+  {
+    id: "2",
+    slug: "futevolei",
+    title: "Campeonato de Futevôlei",
+    description:
+      "Torneio de futevôlei com os melhores atletas da região. Uma competição acirrada na areia com muito esporte e diversão garantida!",
+    image: "/events/beach02.jpg",
+    date: {
+      start: "2025-09-09T08:00:00Z",
+      end: "2025-09-09T20:00:00Z",
+      formatted: "09 de Setembro de 2025",
+    },
+    location: {
+      name: "Quadra de Areia Central",
+      address: "Rua das Palmeiras, 456",
+      city: "Rio de Janeiro",
+      state: "RJ",
+    },
+    prices: {
+      min: "R$ 50,00",
+      max: "R$ 50,00",
+      label: "R$ 50,00",
+    },
+    salesEndDate: "2025-09-10T18:00:00Z",
+    categories: ["Futevôlei", "Esportes"],
+    organizer: {
+      name: "Rio Sports",
+      contact: "(21) 88888-8888",
+    },
+    ticketTypes: [
+      {
+        id: "1",
+        name: "Ingresso Geral",
+        price: "R$ 50,00",
+        available: true,
+        description: "Acesso completo ao evento",
+      },
+    ],
+    eventType: "single-day",
+    fullAddress: "Rua das Palmeiras, 456 - Rio de Janeiro, RJ",
+    reservationTime: "10 minutos",
+    paymentTime: "20 minutos",
+    videoData: {
+      videoUrl: "https://www.youtube.com/watch?v=h9XR3obZiVQ",
+      thumbnailUrl: "/events/beach-tennis-thumbnail.jpg",
+      title: "Introdução ao Campeonato de Beach Tennis",
+    },
+  },
+  {
+    id: "3",
+    slug: "volei-de-areia",
+    title: "Campeonato de Beach Tennis 6k Premio",
+    description:
+      "Grande torneio de vôlei de areia com premiação de R$ 6.000,00. Não perca esta oportunidade única de participar de uma das maiores competições da modalidade!",
+    image: "/events/beach03.jpg",
+    date: {
+      start: "2025-09-02T07:00:00Z",
+      end: "2025-09-03T19:00:00Z",
+      formatted: "02 a 03 de Setembro de 2025",
+    },
+    location: {
+      name: "Arena Volleyball",
+      address: "Av. Atlântica, 789",
+      city: "Salvador",
+      state: "BA",
+    },
+    prices: {
+      min: "R$ 50,00",
+      max: "R$ 120,00",
+      label: "A partir de R$ 50,00",
+    },
+    salesEndDate: "2025-09-10T18:00:00Z",
+    categories: ["Vôlei de Areia", "Esportes"],
+    organizer: {
+      name: "Bahia Volleyball",
+      contact: "(71) 77777-7777",
+    },
+    ticketTypes: [
+      {
+        id: "1",
+        name: "Arquibancada",
+        price: "R$ 50,00",
+        available: true,
+        description: "Lugar na arquibancada com boa visão",
+      },
+      {
+        id: "2",
+        name: "Camarote",
+        price: "R$ 120,00",
+        available: true,
+        description: "Acesso ao camarote VIP com bebidas inclusas",
+      },
+    ],
+    eventType: "multi-day",
+    fullAddress: "Av. Atlântica, 789 - Salvador, BA",
+    reservationTime: "20 minutos",
+    paymentTime: "45 minutos",
+    videoData: {
+      videoUrl: "https://www.youtube.com/watch?v=h9XR3obZiVQ",
+      thumbnailUrl: "/events/beach-tennis-thumbnail.jpg",
+      title: "Introdução ao Campeonato de Beach Tennis",
+    },
   },
 ];

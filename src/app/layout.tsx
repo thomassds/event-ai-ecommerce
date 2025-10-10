@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { CategoryList, Footer, Header } from "@/components";
-import { footerMock } from "@/components/footer/footer-mock";
-import { Banner } from "@/interfaces/banner";
 import { ConditionalBanner } from "@/components/banners/conditional-banners";
-import { banners } from "@/mocks";
+import { banners, categories } from "@/mocks";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -129,14 +127,6 @@ export default async function RootLayout({
     },
   };
 
-  const categories = [
-    { id: "1", name: "Beach Tennis", slug: "beach-tennis" },
-    { id: "2", name: "Fute Volei", slug: "fute-volei" },
-    { id: "3", name: "Volei de Areia", slug: "volei-de-areia" },
-    { id: "4", name: "Futebol", slug: "futebol" },
-    { id: "5", name: "Basquete", slug: "basquete" },
-  ];
-
   return (
     <html suppressHydrationWarning>
       <head>
@@ -151,16 +141,16 @@ export default async function RootLayout({
       <body
         className={`${montserrat.variable} antialiased font-sans min-h-screen flex flex-col`}
       >
-        <Header banners={[]} />
+        <Header />
         <CategoryList categories={categories} />
 
         <ConditionalBanner banners={banners} />
 
-        <div className="w-full max-w-7xl flex flex-col mx-auto flex-1 pb-10">
+        <div className="w-full max-w-7xl flex flex-col mx-auto flex-1 pb-10 p-4">
           <main className={`flex-1 transition-all pt-6`}>{children}</main>
         </div>
 
-        <Footer data={footerMock} />
+        <Footer />
       </body>
     </html>
   );

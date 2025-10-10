@@ -70,18 +70,20 @@ export default async function Events() {
             ))}
           </div>
 
-          <VerticalBanners
-            intervalTime={5000}
-            ariaLabel="Banners promocionais de eventos"
-            banners={banners.map((banner) => ({
-              url: banner.url,
-              alt: banner.alt,
-              title: banner.title,
-              description: banner.description,
-              link: banner.link,
-              priority: banner.priority,
-            }))}
-          />
+          <div className="hidden xl:block w-60">
+            <VerticalBanners
+              intervalTime={5000}
+              ariaLabel="Banners promocionais de eventos"
+              banners={banners.map((banner) => ({
+                url: banner.url,
+                alt: banner.alt,
+                title: banner.title,
+                description: banner.description,
+                link: banner.link,
+                priority: banner.priority,
+              }))}
+            />
+          </div>
         </div>
       </div>
     </div>

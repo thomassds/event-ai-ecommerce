@@ -1,5 +1,6 @@
 import { EventCard } from "@/components";
 import { Event } from "@/interfaces";
+import { events } from "@/mocks";
 import { type Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -55,117 +56,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const events: Event[] = [
-    {
-      id: 1,
-      name: "Beach Tennis",
-      slug: "beach-tennis",
-      startDate: "10-09-2025",
-      endDate: "11-09-2025",
-      location: "Praia",
-      price: 50,
-      image: "/events/beach01.jpg",
-      title: "Campeonato de Beach Tennis na Praia",
-      link: "/events/beach-tennis",
-    },
-    {
-      id: 2,
-      name: "FuteVolei",
-      slug: "futevolei",
-      startDate: "09-09-2025",
-      endDate: "09-09-2025",
-      location: "Praia",
-      price: 50,
-      image: "/events/beach02.jpg",
-      title: "Campeonato de Beach Tennis na Praia",
-      link: "/events/futevolei",
-    },
-    {
-      id: 3,
-      name: "Volei de Areia",
-      slug: "volei-de-areia",
-      startDate: "02-09-2025",
-      endDate: "03-09-2025",
-      location: "Praia",
-      price: 50,
-      image: "events/beach03.jpg",
-      title: "Campeonato de Beach Tennis 6k Premio",
-      link: "/events/volei-de-areia",
-    },
-    {
-      id: 4,
-      name: "Beach Tennis",
-      slug: "beach-tennis",
-      startDate: "10-09-2025",
-      endDate: "11-09-2025",
-      location: "Praia",
-      price: 50,
-      image: "/events/beach01.jpg",
-      title: "Campeonato de Beach Tennis na Praia",
-      link: "/events/beach-tennis",
-    },
-    {
-      id: 5,
-      name: "FuteVolei",
-      slug: "futevolei",
-      startDate: "09-09-2025",
-      endDate: "09-09-2025",
-      location: "Praia",
-      price: 50,
-      image: "/events/beach02.jpg",
-      title: "Campeonato de Beach Tennis na Praia",
-      link: "/events/futevolei",
-    },
-    {
-      id: 6,
-      name: "Volei de Areia",
-      slug: "volei-de-areia",
-      startDate: "02-09-2025",
-      endDate: "03-09-2025",
-      location: "Praia",
-      price: 50,
-      image: "events/beach03.jpg",
-      title: "Campeonato de Beach Tennis 6k Premio",
-      link: "/events/volei-de-areia",
-    },
-    {
-      id: 7,
-      name: "Beach Tennis",
-      slug: "beach-tennis",
-      startDate: "10-09-2025",
-      endDate: "11-09-2025",
-      location: "Praia",
-      price: 50,
-      image: "/events/beach01.jpg",
-      title: "Campeonato de Beach Tennis na Praia",
-      link: "/events/beach-tennis",
-    },
-    {
-      id: 8,
-      name: "FuteVolei",
-      slug: "futevolei",
-      startDate: "09-09-2025",
-      endDate: "09-09-2025",
-      location: "Praia",
-      price: 50,
-      image: "/events/beach02.jpg",
-      title: "Campeonato de Beach Tennis na Praia",
-      link: "/events/futevolei",
-    },
-    {
-      id: 9,
-      name: "Volei de Areia",
-      slug: "volei-de-areia",
-      startDate: "02-09-2025",
-      endDate: "03-09-2025",
-      location: "Praia",
-      price: 50,
-      image: "events/beach03.jpg",
-      title: "Campeonato de Beach Tennis 6k Premio",
-      link: "/events/volei-de-areia",
-    },
-  ];
-
   return (
     <div className="w-full flex flex-col">
       <div className="w-full mx-auto flex flex-col gap-4">
