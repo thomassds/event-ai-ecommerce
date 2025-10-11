@@ -68,7 +68,7 @@ export default async function EventDetail({
 
           <div className="md:hidden">
             <div className="max-w-7xl mx-auto md:px-6 lg:px-8 mb-8">
-              <EventInfoCard event={event} />
+              <EventInfoCard event={event} showCountdown={true} />
             </div>
           </div>
 
