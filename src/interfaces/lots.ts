@@ -1,5 +1,5 @@
 export interface LotTaxInfo {
-  id: number;
+  id: string;
   uuid: string;
   name: string;
   price: number; // Preço base (sem taxa)
@@ -7,8 +7,8 @@ export interface LotTaxInfo {
   taxAdm: number; // Valor da taxa (% ou valor fixo)
   calculatedPrice: number; // Preço final (base + taxa)
   availableQuantity: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   status: string;
   order: number;
   ticketId: number;

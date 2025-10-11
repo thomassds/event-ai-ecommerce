@@ -9,7 +9,7 @@ export interface TicketVariation {
   available: boolean;
   maxQuantity: number;
   sectorId: number;
-  lotId: number;
+  lotId: string;
   lotTaxInfo?: LotTaxInfo;
 }
 

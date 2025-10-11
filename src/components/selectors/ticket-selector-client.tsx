@@ -3,21 +3,26 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
 import { PlusIcon, MinusIcon } from "@phosphor-icons/react";
 import { formatCurrency } from "@/utils/format-currency";
-import { DateOption, EventDetails, TicketOption } from "@/interfaces";
+import {
+  DateOption,
+  EventDetails,
+  LotTaxInfo,
+  TicketOption,
+} from "@/interfaces";
 import { GenericAccordion } from "../accordions";
 import Image from "next/image";
+import { useAppCheckout } from "@/hooks";
 
 const ITEMS_PER_PAGE_DEFAULT = 3;
 
-const VariationTaxInfo = () => {
+const VariationTaxInfo = ({ lot }: { lot: LotTaxInfo }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [taxInfo, setTaxInfo] = useState<{
-    basePrice: number;
-    adminTax: number;
-    finalPrice: number;
-    taxDescription: string;
-  } | null>(null);
+  const [error, setError] = useState<string | null>();
+
+  let taxAdmin = lot.taxAdm;
+  if (lot.typeTaxAdm === "P") {
+    taxAdmin = lot.price * (lot.taxAdm / 100);
+  }
 
   if (isLoading) {
     return (
@@ -28,7 +33,7 @@ const VariationTaxInfo = () => {
     );
   }
 
-  if (error || !taxInfo) {
+  if (error || !lot.price) {
     return (
       <div className="text-sm text-gray-600">
         <span className="font-medium">Taxa administrativa:</span>{" "}
@@ -40,14 +45,16 @@ const VariationTaxInfo = () => {
   return (
     <>
       <div className="text-sm text-gray-900">
-        <span className="font-medium">Preço base:</span> {formatCurrency(50)}
+        <span className="font-medium">Preço base:</span>{" "}
+        {formatCurrency(lot.price)}
       </div>
       <div className="text-sm text-gray-600">
         <span className="font-medium">Taxa administrativa:</span>{" "}
-        {formatCurrency(10)}
+        {formatCurrency(taxAdmin)}
       </div>
       <div className="text-sm text-green-600 font-semibold">
-        <span className="font-medium">Preço final:</span> {formatCurrency(60)}
+        <span className="font-medium">Preço final:</span>{" "}
+        {formatCurrency(lot.price + taxAdmin)}
       </div>
 
       <div className="text-xs text-blue-600 mt-1">
@@ -72,13 +79,7 @@ export const TicketSelectorClient = ({
   isUserAuthenticated = false,
   clientId,
 }: TicketSelectorClientProps) => {
-  const {
-    id: eventId,
-    title: eventTitle,
-    image: eventImage,
-    location: eventLocation,
-    date: eventDate,
-  } = event;
+  const { addLotSelected, removeLotSelected, lotsSelected } = useAppCheckout();
 
   const [groupSearch, setGroupSearch] = useState<Record<string, string>>({});
   const [groupPage, setGroupPage] = useState<Record<string, number>>({});
@@ -97,7 +98,6 @@ export const TicketSelectorClient = ({
     []
   );
 
-  // Criar callbacks memoizados para cada lotId para evitar re-renders
   const taxLoadingCallbacks = useMemo(() => {
     const callbacks: Record<string, (isLoading: boolean) => void> = {};
     return {
@@ -114,14 +114,6 @@ export const TicketSelectorClient = ({
   const getPageFor = (groupId: string) => groupPage[groupId] || 1;
   const setPageFor = (groupId: string, page: number) =>
     setGroupPage((prev) => ({ ...prev, [groupId]: page }));
-
-  const handleQuantityChange = useCallback(
-    (variationId: string, change: number) => {
-      console.log("Alterar quantidade do ingresso", variationId, "em", change);
-    },
-
-    [tickets]
-  );
 
   const generateTicketVariations = () => {
     const selectedDates: string[] = [];
@@ -166,7 +158,8 @@ export const TicketSelectorClient = ({
               return (
                 <>
                   {pageItems.map((variation, varIndex) => {
-                    const currentQuantity = 10;
+                    const currentQuantity =
+                      lotsSelected[variation.lotId]?.quantitySelected || 0;
                     const lotIdString = String(variation.lotId);
 
                     // Verificar se o ingresso está esgotado
@@ -198,19 +191,20 @@ export const TicketSelectorClient = ({
                               <span className="font-medium">Lote:</span>{" "}
                               {variation.lote}
                             </div>
-                            <VariationTaxInfo />
+                            <VariationTaxInfo lot={variation.lotTaxInfo!} />
                           </div>
 
                           {!isOutOfStock ? (
                             <div className="flex flex-col items-center gap-2 border border-gray-200 rounded-lg p-2">
                               <button
                                 onClick={() =>
-                                  handleQuantityChange(variation.id, 1)
+                                  addLotSelected(variation.lotTaxInfo!, 1)
                                 }
                                 disabled={
-                                  !isUserAuthenticated ||
-                                  maxQuantityReached ||
-                                  loadingTaxes[lotIdString]
+                                  // !isUserAuthenticated ||
+                                  // maxQuantityReached ||
+                                  // loadingTaxes[lotIdString]
+                                  false
                                 }
                                 className="w-8 h-8 rounded-md bg-purple-100 hover:bg-purple-200 disabled:bg-gray-100 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
                                 aria-label={`Adicionar ingresso ${variation.name}`}
@@ -244,7 +238,7 @@ export const TicketSelectorClient = ({
 
                               <button
                                 onClick={() =>
-                                  handleQuantityChange(variation.id, -1)
+                                  removeLotSelected(variation.lotId)
                                 }
                                 disabled={
                                   !isUserAuthenticated ||
@@ -390,7 +384,7 @@ export const TicketSelectorClient = ({
             <div className="relative w-full bg-white">
               <Image
                 src={event.imageMapEvent}
-                alt={`Mapa do ${eventTitle}`}
+                alt={`Mapa do ${event.title}`}
                 width={400}
                 height={300}
                 style={{ height: "auto" }}

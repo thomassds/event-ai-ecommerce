@@ -4,6 +4,7 @@ import { formatCurrency } from "@/utils/format-currency";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircleIcon } from "@phosphor-icons/react";
+import { useAppCheckout } from "@/hooks";
 
 interface OrderSummaryCardProps {
   variant?: "desktop" | "mobile";
@@ -14,24 +15,16 @@ export const OrderSummaryCard = ({
 }: OrderSummaryCardProps) => {
   const router = useRouter();
 
+  const { calculateResume, lotsSelected } = useAppCheckout();
+
+  const hasLocalItems = false;
   const isAuthenticated = true;
-  const hasLocalItems = true;
-  const hasCartItems = true;
-  const hasItems = true;
+  const hasItems = Object.keys(lotsSelected).length > 0;
 
-  const displayItems = [
-    {
-      id: "1",
-      name: "Item 1",
-      price: 100,
-      quantity: 1,
-      title: "Ingresso Pista",
-      variationName: "1º Lote",
-    },
-  ];
-  const displayTotal = hasLocalItems ? 100 : 100;
+  const displayItems = Object.values(lotsSelected);
 
-  const formattedTotal = formatCurrency(displayTotal);
+  const { finalTotal, adminTax, discount, subtotal } = calculateResume();
+
   const hasCoupon = false;
 
   const handleButtonClick = () => {
@@ -41,7 +34,7 @@ export const OrderSummaryCard = ({
       }
       return;
     }
-    if (hasCartItems) {
+    if (hasItems) {
       router.push("/checkout");
       return;
     }
@@ -57,7 +50,7 @@ export const OrderSummaryCard = ({
         <div className="flex flex-col">
           <span className="text-xs text-gray-600">Total</span>
           <span className="text-lg font-bold text-green-600">
-            {formattedTotal}
+            {formatCurrency(finalTotal)}
           </span>
           {hasCoupon && !hasItems && (
             <span className="text-xs text-blue-600">Cupom fewfew aplicado</span>
@@ -69,7 +62,7 @@ export const OrderSummaryCard = ({
           className={`font-semibold py-3 px-6 rounded-lg transition-colors ${
             hasLocalItems
               ? "bg-green-600 hover:bg-green-700 text-white"
-              : hasCartItems
+              : hasItems
               ? "bg-blue-600 hover:bg-blue-700 text-white"
               : !isAuthenticated
               ? "bg-blue-600 hover:bg-blue-700 text-white"
@@ -81,7 +74,7 @@ export const OrderSummaryCard = ({
               : !isAuthenticated
               ? "Fazer login"
               : "Selecione ingressos"
-          } - Total: ${formattedTotal}`}
+          } - Total: ${formatCurrency(finalTotal)}`}
         >
           {hasItems
             ? "Finalizar Compra"
@@ -127,21 +120,23 @@ export const OrderSummaryCard = ({
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <h4 className="text-sm font-medium text-gray-900 leading-tight">
-                          {item.title}
+                          {item.name}
                         </h4>
-                        {item.variationName && (
+                        {item.name && (
                           <p className="text-xs text-gray-600 mt-1">
-                            {item.variationName}
+                            {item.name}
                           </p>
                         )}
                         <p className="text-xs text-gray-500 mt-1">
-                          {item.quantity}{" "}
-                          {item.quantity === 1 ? "ingresso" : "ingressos"} ×{" "}
-                          {formatCurrency(item.price)}
+                          {item.quantitySelected}{" "}
+                          {item.quantitySelected === 1
+                            ? "ingresso"
+                            : "ingressos"}{" "}
+                          × {formatCurrency(item.price)}
                         </p>
                       </div>
                       <div className="text-sm font-medium text-gray-900">
-                        {formatCurrency(item.price * item.quantity)}
+                        {formatCurrency(item.price * item.quantitySelected)}
                       </div>
                     </div>
                   </div>
@@ -153,53 +148,6 @@ export const OrderSummaryCard = ({
 
               {/* Cálculos */}
               {(() => {
-                // let subtotal,
-                //   adminTax,
-                //   discount = 0;
-
-                // if (hasLocalItems) {
-                //   subtotal = localItems.reduce((sum, item) => {
-                //     return sum + item.price * item.quantity;
-                //   }, 0);
-
-                //   adminTax = 0;
-                //   localItems.forEach((item) => {
-                //     const itemAdminFee = (item as any).adminFee || 0;
-                //     adminTax += itemAdminFee * item.quantity;
-                //   });
-
-                //   if (appliedCoupon) {
-                //     const normalizedDiscountType =
-                //       appliedCoupon.discountType === "P" ||
-                //       appliedCoupon.discountType === "percentage"
-                //         ? "percentage"
-                //         : "fixed";
-
-                //     if (normalizedDiscountType === "percentage") {
-                //       const totalWithTax = Number(subtotal) + Number(adminTax);
-                //       discount =
-                //         totalWithTax * ((appliedCoupon.discount || 0) / 100);
-                //     } else {
-                //       discount = appliedCoupon.discount || 0;
-                //     }
-                //     discount = Math.min(
-                //       discount,
-                //       Number(subtotal) + Number(adminTax)
-                //     );
-                //   }
-                // } else {
-                //   subtotal = cartSubtotal;
-                //   adminTax = cartAdminTax;
-                // }
-
-                // const finalTotal = hasLocalItems
-                //   ? Math.max(0, subtotal + adminTax - discount)
-                //   : cartTotal;
-
-                const subtotal = 100;
-                const adminTax = 0;
-                const discount = 0;
-                const finalTotal = 100;
                 return (
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
@@ -257,7 +205,7 @@ export const OrderSummaryCard = ({
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Total a Pagar:</span>
                 <span className="text-xl font-bold text-gray-900">
-                  {formattedTotal}
+                  {formatCurrency(finalTotal)}
                 </span>
               </div>
             </div>
@@ -269,7 +217,7 @@ export const OrderSummaryCard = ({
             className={`w-full font-semibold py-3 px-6 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors ${
               hasLocalItems
                 ? "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500"
-                : hasCartItems
+                : hasItems
                 ? "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500"
                 : !isAuthenticated
                 ? "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500"

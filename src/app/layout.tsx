@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { CategoryList, Footer, Header } from "@/components";
 import { ConditionalBanner } from "@/components/banners/conditional-banners";
+import { ReduxProvider } from "@/providers";
 import { banners, categories } from "@/mocks";
 
 const montserrat = Montserrat({
@@ -141,16 +142,18 @@ export default async function RootLayout({
       <body
         className={`${montserrat.variable} antialiased font-sans min-h-screen flex flex-col`}
       >
-        <Header />
-        <CategoryList categories={categories} />
+        <ReduxProvider>
+          <Header />
+          <CategoryList categories={categories} />
 
-        <ConditionalBanner banners={banners} />
+          <ConditionalBanner banners={banners} />
 
-        <div className="w-full max-w-7xl flex flex-col mx-auto flex-1 pb-10 p-4">
-          <main className={`flex-1 transition-all pt-6`}>{children}</main>
-        </div>
+          <div className="w-full max-w-7xl flex flex-col mx-auto flex-1 pb-10 p-4">
+            <main className={`flex-1 transition-all pt-6`}>{children}</main>
+          </div>
 
-        <Footer />
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );
