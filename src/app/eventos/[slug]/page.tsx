@@ -11,7 +11,7 @@ import {
   SalesCountdownMobileCard,
 } from "@/components";
 import { notFound } from "next/navigation";
-import { categories, events, eventsDetails, tickets } from "@/mocks";
+import { categories, eventsDetails, tickets } from "@/mocks";
 import { EventDetails, TicketOption } from "@/interfaces";
 import { EventVideoCard } from "@/components/cards/event-video-card";
 
