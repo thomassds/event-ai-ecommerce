@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
         description,
         type: "website",
         locale: "pt_BR",
-        siteName: "beachticket",
+        siteName: "Beach Ticket",
         url: "https://www.beachticket.com.br",
         images: [
           {

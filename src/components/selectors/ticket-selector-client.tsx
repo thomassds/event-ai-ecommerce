@@ -201,10 +201,7 @@ export const TicketSelectorClient = ({
                                   addLotSelected(variation.lotTaxInfo!, 1)
                                 }
                                 disabled={
-                                  // !isUserAuthenticated ||
-                                  // maxQuantityReached ||
-                                  // loadingTaxes[lotIdString]
-                                  false
+                                  !isUserAuthenticated || maxQuantityReached
                                 }
                                 className="w-8 h-8 rounded-md bg-purple-100 hover:bg-purple-200 disabled:bg-gray-100 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
                                 aria-label={`Adicionar ingresso ${variation.name}`}
@@ -221,9 +218,7 @@ export const TicketSelectorClient = ({
                                 <PlusIcon
                                   size={16}
                                   color={
-                                    !isUserAuthenticated ||
-                                    loadingTaxes[lotIdString] ||
-                                    maxQuantityReached
+                                    !isUserAuthenticated || maxQuantityReached
                                       ? "#9CA3AF"
                                       : "#5400D6"
                                   }

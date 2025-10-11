@@ -341,7 +341,7 @@ export const DesktopFooter = () => {
             <address className="font-normal text-xs leading-4 text-[#52575E] text-center px-4 not-italic max-w-4xl">
               <span className="sr-only">Informações da empresa: </span>
               BeachTicket - CNPJ xx.xxx.xxx/xxxx-xx | Rua Teste, 030 | 101 |
-              Hortolândia - SP | CEP: 13186-642
+              CITY - SP | CEP: xxxxxx-xxx | SAC: (19) 99999-9999 |
             </address>
             {/* <div aria-label="Logo da empresa">
               <Logo width={102} height={32} fill="#5400D6" aria-hidden="true" />

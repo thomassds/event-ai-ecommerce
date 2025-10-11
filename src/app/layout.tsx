@@ -15,7 +15,7 @@ const montserrat = Montserrat({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const tenantName = "beachticket";
+  const tenantName = "Beach Ticket";
   const baseUrl = "https://www.beachticket.com.br";
   const description = `${tenantName} - Compre ingressos online para eventos, shows e espetáculos. Encontre os melhores eventos na sua cidade com segurança e praticidade!`;
 
