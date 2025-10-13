@@ -1,7 +1,11 @@
-import { setLotsSelected } from "@/store/slices/checkout-slice";
+import {
+  setIsProcessingPayment,
+  setLotsSelected,
+} from "@/store/slices/checkout-slice";
 import { useAppDispatch } from "./use-app-dispatch";
 import { useAppSelector } from "./use-app-selector";
 import { LotTaxInfo } from "@/interfaces";
+import { useState } from "react";
 
 interface UseAppCheckoutReturn {
   lotsSelected: Record<string, LotTaxInfo & { quantitySelected: number }>;
@@ -13,11 +17,15 @@ interface UseAppCheckoutReturn {
     discount: number;
     finalTotal: number;
   };
+  isProcessingPayment: boolean;
+  handleProcessPayment: () => void;
 }
 
 export const useAppCheckout = (): UseAppCheckoutReturn => {
   const dispatch = useAppDispatch();
-  const { lotsSelected } = useAppSelector((state) => state.checkout);
+  const { lotsSelected, isProcessingPayment } = useAppSelector(
+    (state) => state.checkout
+  );
 
   const addLotSelected = (lot: LotTaxInfo, quantity: number) => {
     const lotAlreadySelected = lotsSelected[lot.id];
@@ -85,10 +93,17 @@ export const useAppCheckout = (): UseAppCheckoutReturn => {
 
     return { subtotal, adminTax, discount, finalTotal };
   };
+
+  const handleProcessPayment = () => {
+    dispatch(setIsProcessingPayment(!isProcessingPayment));
+  };
+
   return {
     lotsSelected,
     addLotSelected,
     removeLotSelected,
     calculateResume,
+    isProcessingPayment,
+    handleProcessPayment,
   };
 };

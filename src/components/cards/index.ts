@@ -8,3 +8,6 @@ export * from "./event-about-card";
 export * from "./event-card";
 export * from "./user-info-card";
 export * from "./register-card";
+export * from "./contact-info-card";
+export * from "./contact-info-item-card";
+export * from "./payment-methods-card";
