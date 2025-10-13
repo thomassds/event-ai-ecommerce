@@ -7,3 +7,4 @@ export * from "./order-summary-card";
 export * from "./event-about-card";
 export * from "./event-card";
 export * from "./user-info-card";
+export * from "./register-card";
