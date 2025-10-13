@@ -5,10 +5,17 @@ import { useEffect, useState } from "react";
 import { Button } from "../buttons";
 import { SearchInput } from "../inputs";
 import { useRouter } from "next/navigation";
+import { MenuMobile } from "../menus";
 
-export const HeaderMobile = () => {
+interface HeaderMobileProps {
+  isMenuOpen: boolean;
+  setIsMenuOpen: (isOpen: boolean) => void;
+}
+export const HeaderMobile = ({
+  isMenuOpen,
+  setIsMenuOpen,
+}: HeaderMobileProps) => {
   const router = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="xl:hidden bg-[#5400D6] p-4 flex flex-col gap-4">

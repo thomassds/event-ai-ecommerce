@@ -6,3 +6,4 @@ export * from "./event-ticket-card";
 export * from "./order-summary-card";
 export * from "./event-about-card";
 export * from "./event-card";
+export * from "./user-info-card";
