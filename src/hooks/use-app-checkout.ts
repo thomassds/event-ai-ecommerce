@@ -6,6 +6,7 @@ import { useAppDispatch } from "./use-app-dispatch";
 import { useAppSelector } from "./use-app-selector";
 import { LotTaxInfo } from "@/interfaces";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface UseAppCheckoutReturn {
   lotsSelected: Record<string, LotTaxInfo & { quantitySelected: number }>;
@@ -22,6 +23,7 @@ interface UseAppCheckoutReturn {
 }
 
 export const useAppCheckout = (): UseAppCheckoutReturn => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { lotsSelected, isProcessingPayment } = useAppSelector(
     (state) => state.checkout
@@ -94,8 +96,19 @@ export const useAppCheckout = (): UseAppCheckoutReturn => {
     return { subtotal, adminTax, discount, finalTotal };
   };
 
-  const handleProcessPayment = () => {
-    dispatch(setIsProcessingPayment(!isProcessingPayment));
+  const handleProcessPayment = async () => {
+    try {
+      dispatch(setIsProcessingPayment(true));
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      router.push("/checkout/success");
+
+      dispatch(setIsProcessingPayment(false));
+      dispatch(setLotsSelected({}));
+    } catch (error) {
+      dispatch(setIsProcessingPayment(false));
+    }
   };
 
   return {
