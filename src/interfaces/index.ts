@@ -6,3 +6,4 @@ export * from "./banner";
 export * from "./category";
 export * from "./payment-method";
 export * from "./user";
+export * from "./tenant";

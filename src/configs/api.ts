@@ -10,9 +10,14 @@ apiClient.interceptors.request.use(
     const state = store.getState();
 
     const { token } = state.auth;
+    const { tenant } = state.tenant;
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    if (tenant?.id) {
+      config.headers["x-tenant-id"] = tenant.id;
     }
 
     return config;

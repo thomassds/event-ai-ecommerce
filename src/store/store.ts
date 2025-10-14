@@ -15,18 +15,20 @@ import storage from "./persist-storage";
 import uiReducer from "./slices/ui-slice";
 import checkoutReducer from "./slices/checkout-slice";
 import authReducer from "./slices/auth-slice";
+import tenantReducer from "./slices/tenant-slice";
 
 const persistConfig = {
   key: "root",
   storage,
   version: 1,
-  whitelist: ["ui", "auth"],
+  whitelist: ["ui", "auth", "tenant"],
 };
 
 const rootReducer = combineReducers({
   ui: uiReducer,
   checkout: checkoutReducer,
   auth: authReducer,
+  tenant: tenantReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
