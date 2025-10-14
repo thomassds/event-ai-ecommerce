@@ -11,6 +11,7 @@ interface UseAppAuthReturn {
   signIn: (params: { email: string; password: string }) => Promise<void>;
   user: User | null;
   isLoading: boolean;
+  signOut: () => void;
 }
 
 export const useAppAuth = (): UseAppAuthReturn => {
@@ -42,5 +43,18 @@ export const useAppAuth = (): UseAppAuthReturn => {
     setIsLoading(false);
   };
 
-  return { isLoggedIn, signIn, user, isLoading };
+  const signOut = () => {
+    setIsLoading(true);
+    try {
+      dispatch(setToken());
+      dispatch(setUser(null));
+      dispatch(setIsLoggedIn(false));
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { isLoggedIn, signIn, user, isLoading, signOut };
 };

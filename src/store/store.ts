@@ -1,4 +1,4 @@
-import { configureStore, combineReducers, Action } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import {
   persistReducer,
   persistStore,
@@ -23,23 +23,16 @@ const persistConfig = {
   whitelist: ["ui", "auth"],
 };
 
-const combinedReducers = combineReducers({
-  ui: persistReducer(persistConfig, uiReducer),
+const rootReducer = combineReducers({
+  ui: uiReducer,
   checkout: checkoutReducer,
-  auth: persistReducer(persistConfig, authReducer),
+  auth: authReducer,
 });
 
-export type RootState = ReturnType<typeof combinedReducers>;
-
-const rootReducer = (
-  state: RootState | undefined,
-  action: Action
-): RootState => {
-  return combinedReducers(state, action);
-};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -53,3 +46,4 @@ export const persistor = persistStore(store);
 
 export type AppStore = typeof store;
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;

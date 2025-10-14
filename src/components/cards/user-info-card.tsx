@@ -20,7 +20,7 @@ interface UserAccountDropdownProps {
 }
 
 function UserAccountDropdown({ user }: UserAccountDropdownProps) {
-  const signOut = () => {};
+  const { signOut } = useAppAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -36,7 +36,7 @@ function UserAccountDropdown({ user }: UserAccountDropdownProps) {
 
   const handleLogout = useCallback(async () => {
     try {
-      await signOut();
+      signOut();
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
@@ -144,7 +144,7 @@ function UserAccountDropdown({ user }: UserAccountDropdownProps) {
     {
       label: "Sair",
       href: "#",
-      onClick: () => handleLogout(),
+      onClick: handleLogout,
       icon: <SignOutIcon size={18} aria-hidden="true" />,
     },
   ];
@@ -259,9 +259,7 @@ export function UserInfo() {
 }
 
 export function MobileUserInfoCard() {
-  const { isLoggedIn, user, isLoading } = useAppAuth();
-
-  const signOut = () => {};
+  const { isLoggedIn, user, isLoading, signOut } = useAppAuth();
 
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -272,7 +270,7 @@ export function MobileUserInfoCard() {
 
   const handleLogout = async () => {
     try {
-      await signOut();
+      signOut();
       router.push("/auth");
     } catch (error) {
       console.error("Logout error:", error);
