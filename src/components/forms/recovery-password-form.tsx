@@ -254,7 +254,7 @@ export function RecoverPasswordForm() {
                 />
               </svg>
               <Link
-                href="/login"
+                href="/auth"
                 className="text-[#5400D6] font-medium hover:underline"
               >
                 Voltar a tela de login.
@@ -502,7 +502,7 @@ export function RecoverPasswordForm() {
                 />
               </svg>
               <Link
-                href="/login"
+                href="/auth"
                 className="text-[#5400D6] font-medium hover:underline"
               >
                 Voltar a tela de login.
@@ -541,7 +541,7 @@ export function RecoverPasswordForm() {
             </div>
 
             <Button
-              onClick={() => (window.location.href = "/login")}
+              onClick={() => (window.location.href = "/auth")}
               variant="success"
               size="lg"
               className="w-full"

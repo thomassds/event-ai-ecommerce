@@ -11,8 +11,11 @@ import Image from "next/image";
 import { IconedButton } from "../buttons";
 import { SearchInput } from "../inputs";
 import { useRouter } from "next/navigation";
+import { useAppAuth } from "@/hooks";
+import { UserInfo } from "../cards";
 
 export const HeaderDesktop = () => {
+  const { user } = useAppAuth();
   const router = useRouter();
 
   return (
@@ -50,21 +53,27 @@ export const HeaderDesktop = () => {
           </div>
 
           <div className="flex h-16 items-center gap-4 ">
-            <IconedButton
-              icon={<UserCircleIcon size={30} />}
-              upperText="Meus Eventos "
-              lowerText="ou Criar Evento"
-              tooltipText="Area do Produtor"
-              onClick={() => router.push("/auth")}
-            />
+            {user && (
+              <IconedButton
+                icon={<UserCircleIcon size={30} />}
+                upperText="Meus Eventos "
+                lowerText="ou Criar Evento"
+                tooltipText="Area do Produtor"
+                onClick={() => router.push("/auth")}
+              />
+            )}
 
-            <IconedButton
-              icon={<UserCircleIcon size={30} />}
-              upperText="Faça login"
-              lowerText="ou Cadastre-se"
-              tooltipText="Login ou Cadastro"
-              onClick={() => router.push("/auth")}
-            />
+            {!user && (
+              <IconedButton
+                icon={<UserCircleIcon size={30} />}
+                upperText="Faça login"
+                lowerText="ou Cadastre-se"
+                tooltipText="Login ou Cadastro"
+                onClick={() => router.push("/auth")}
+              />
+            )}
+
+            <UserInfo />
 
             <IconedButton
               icon={<InfoIcon size={30} />}

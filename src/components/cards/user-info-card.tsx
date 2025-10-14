@@ -11,6 +11,7 @@ import {
 } from "@phosphor-icons/react/ssr";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Button, IconedButton } from "../buttons";
+import { useAppAuth } from "@/hooks";
 
 interface UserAccountDropdownProps {
   user: {
@@ -225,14 +226,13 @@ function UserAccountDropdown({ user }: UserAccountDropdownProps) {
 }
 
 export function UserInfo() {
-  const user = { name: "Usuário Exemplo" };
-  const isAuthenticated = true;
+  const { user, isLoggedIn } = useAppAuth();
   const isLoading = false;
 
   const router = useRouter();
 
   const handleGoToLogin = () => {
-    router.push("/login");
+    router.push("/auth");
   };
 
   if (isLoading) {
@@ -244,7 +244,7 @@ export function UserInfo() {
     );
   }
 
-  if (!isAuthenticated || !user) {
+  if (!isLoggedIn || !user) {
     return (
       <IconedButton
         icon={<UserCircleIcon size={30} />}
@@ -259,9 +259,7 @@ export function UserInfo() {
 }
 
 export function MobileUserInfoCard() {
-  const user = { name: "Thomas Silva" };
-  const isAuthenticated = true;
-  const isLoading = false;
+  const { isLoggedIn, user, isLoading } = useAppAuth();
 
   const signOut = () => {};
 
@@ -269,20 +267,20 @@ export function MobileUserInfoCard() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleGoToLogin = () => {
-    router.push("/login");
+    router.push("/auth");
   };
 
   const handleLogout = async () => {
     try {
       await signOut();
-      router.push("/login");
+      router.push("/auth");
     } catch (error) {
       console.error("Logout error:", error);
     }
   };
 
   const handleMenuItemClick = () => {
-    if (!isAuthenticated) router.push("/login");
+    if (!isLoggedIn) router.push("/auth");
   };
 
   if (isLoading) {
@@ -297,7 +295,7 @@ export function MobileUserInfoCard() {
     );
   }
 
-  if (!isAuthenticated || !user) {
+  if (!isLoggedIn || !user) {
     return (
       <Button
         type="button"

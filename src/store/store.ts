@@ -14,16 +14,19 @@ import storage from "./persist-storage";
 
 import uiReducer from "./slices/ui-slice";
 import checkoutReducer from "./slices/checkout-slice";
+import authReducer from "./slices/auth-slice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["ui", "checkout"],
+  version: 1,
+  whitelist: ["ui", "auth"],
 };
 
 const combinedReducers = combineReducers({
   ui: persistReducer(persistConfig, uiReducer),
   checkout: checkoutReducer,
+  auth: persistReducer(persistConfig, authReducer),
 });
 
 export type RootState = ReturnType<typeof combinedReducers>;

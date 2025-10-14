@@ -43,7 +43,7 @@ export const OrderSummaryCard = ({
       return;
     }
     if (!isAuthenticated) {
-      router.push("/login");
+      router.push("/auth");
       return;
     }
   };

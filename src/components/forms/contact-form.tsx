@@ -200,7 +200,7 @@ export function ContactForm({ setCurrentStep }: ContactProps) {
       toast.success(
         "Cadastro realizado com sucesso! Agora você pode fazer login."
       );
-      router.push("/login");
+      router.push("/auth");
     } catch (error) {
       console.error("Registration error:", error);
       const errorMessage =

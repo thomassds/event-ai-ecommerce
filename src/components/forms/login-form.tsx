@@ -9,8 +9,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { detectInputType, LoginFormValues, loginSchema } from "@/schemas";
 import { useState } from "react";
+import { useAppAuth } from "@/hooks";
+import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
+  const { signIn } = useAppAuth();
+  const router = useRouter();
+
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [rememberMe, setRememberMe] = useState(false);
@@ -55,6 +60,21 @@ export const LoginForm = () => {
     return "default";
   };
 
+  const handleSign = async ({ username, password }: LoginFormValues) => {
+    setError(null);
+    setIsPending(true);
+
+    try {
+      await signIn({ email: username, password });
+
+      router.push("/");
+    } catch (error) {
+      setError("Falha ao autenticar usuário. Verifique suas credenciais.");
+    } finally {
+      setIsPending(false);
+    }
+  };
+
   return (
     <Card className="not-lg:max-w-md lg:min-w-192">
       <CardHeader>
@@ -77,7 +97,7 @@ export const LoginForm = () => {
         <div className="flex flex-col gap-6">
           <Form {...form}>
             <form
-              onSubmit={() => {}}
+              onSubmit={handleSubmit(handleSign)}
               className="flex flex-col gap-6"
               aria-labelledby="login-title login-subtitle"
               noValidate
@@ -101,8 +121,9 @@ export const LoginForm = () => {
                         )}
                         error={fieldState.error?.message}
                         enableCapsLockWarning={false}
-                        description="Digite seu e-mail, telefone ou CPF para fazer login"
-                        ariaLabel="Campo de e-mail, telefone ou CPF"
+                        // description="Digite seu e-mail, telefone ou CPF para fazer login"
+                        description="Digite seu e-mail"
+                        ariaLabel="Campo de e-mail"
                       />
                     );
                   }
