@@ -16,6 +16,7 @@ import uiReducer from "./slices/ui-slice";
 import checkoutReducer from "./slices/checkout-slice";
 import authReducer from "./slices/auth-slice";
 import tenantReducer from "./slices/tenant-slice";
+import categoryReducer from "./slices/category-slice";
 
 const persistConfig = {
   key: "root",
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   checkout: checkoutReducer,
   auth: authReducer,
   tenant: tenantReducer,
+  category: categoryReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

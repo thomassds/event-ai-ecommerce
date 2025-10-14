@@ -4,7 +4,7 @@ import "./globals.css";
 import { CategoryList, Footer, Header } from "@/components";
 import { ConditionalBanner } from "@/components/banners/conditional-banners";
 import { ReduxProvider } from "@/providers";
-import { banners, categories } from "@/mocks";
+import { banners } from "@/mocks";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -144,7 +144,7 @@ export default async function RootLayout({
       >
         <ReduxProvider>
           <Header />
-          <CategoryList categories={categories} />
+          <CategoryList />
 
           <ConditionalBanner banners={banners} />
 

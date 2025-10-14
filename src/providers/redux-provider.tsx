@@ -15,7 +15,7 @@ export const ReduxProvider = ({ children }: ReduxProviderProps) => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <TenantInitializer children={children} />
+        <TenantInitializer>{children}</TenantInitializer>
       </PersistGate>
     </Provider>
   );

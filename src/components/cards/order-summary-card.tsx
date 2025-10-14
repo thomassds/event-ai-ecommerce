@@ -1,7 +1,6 @@
 "use client";
 
 import { formatCurrency } from "@/utils/format-currency";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircleIcon } from "@phosphor-icons/react";
 import { useAppCheckout } from "@/hooks";

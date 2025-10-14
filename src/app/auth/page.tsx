@@ -1,7 +1,5 @@
 "Use client";
-import { BannerItem, LoginForm } from "@/components";
-import { Card, CardContent } from "@/components/cards";
-import { CircularStepIndicator } from "@/components/steps";
+import { LoginForm } from "@/components";
 import { authBanner } from "@/mocks";
 import { Metadata } from "next";
 

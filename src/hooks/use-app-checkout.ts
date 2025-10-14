@@ -1,3 +1,5 @@
+"use client";
+
 import {
   setIsProcessingPayment,
   setLotsSelected,
@@ -5,7 +7,6 @@ import {
 import { useAppDispatch } from "./use-app-dispatch";
 import { useAppSelector } from "./use-app-selector";
 import { LotTaxInfo } from "@/interfaces";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface UseAppCheckoutReturn {
@@ -107,6 +108,7 @@ export const useAppCheckout = (): UseAppCheckoutReturn => {
       dispatch(setIsProcessingPayment(false));
       dispatch(setLotsSelected({}));
     } catch (error) {
+      console.log(error);
       dispatch(setIsProcessingPayment(false));
     }
   };

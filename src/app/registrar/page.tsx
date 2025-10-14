@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CircularStepIndicator,
-  PersonalDataForm,
-  RegisterCard,
-} from "@/components";
+import { RegisterCard } from "@/components";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

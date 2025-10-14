@@ -12,6 +12,15 @@ apiClient.interceptors.request.use(
     const { token } = state.auth;
     const { tenant } = state.tenant;
 
+    if (!tenant) {
+      const storageTenant = localStorage.getItem("tenant");
+
+      if (storageTenant) {
+        const parsedTenant = JSON.parse(storageTenant);
+        config.headers["x-tenant-id"] = parsedTenant.id;
+      }
+    }
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -32,12 +41,8 @@ apiClient.interceptors.response.use(
     return response;
   },
 
-  async (error: any) => {
-    const originalRequest = error.config;
-    // if (error.response.status === 401 && !originalRequest._retry) {
-    //   localStorage.removeItem("persist:root");
-    //   window.location.reload();
-    // }
+  async (error) => {
+    console.log("Api Error:", error);
 
     return Promise.reject(error);
   }

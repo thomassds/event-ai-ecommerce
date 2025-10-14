@@ -1,3 +1,5 @@
+"use client";
+
 import { signInAction } from "@/actions";
 import { useAppSelector } from "./use-app-selector";
 import { useAppDispatch } from "./use-app-dispatch";

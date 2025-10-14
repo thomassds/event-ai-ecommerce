@@ -1,14 +1,18 @@
-"use-client";
+"use client";
 
+import { useAppCategory } from "@/hooks";
+import { Category } from "@/interfaces";
 import Link from "next/link";
+import { useLayoutEffect } from "react";
 
-interface Category {
-  id: string;
-  name: string;
-  slug: string;
-}
+export const CategoryList = () => {
+  const { categories, loadCategories } = useAppCategory();
 
-export const CategoryList = ({ categories }: { categories: Category[] }) => {
+  useLayoutEffect(() => {
+    if (!categories) {
+      loadCategories();
+    }
+  }, [categories]);
   return (
     <nav
       className="bg-white border-b border-gray-200"

@@ -1,5 +1,4 @@
 import { EventCard } from "@/components";
-import { Event } from "@/interfaces";
 import { events } from "@/mocks";
 import { type Metadata } from "next";
 
@@ -42,6 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     };
   } catch (error) {
+    console.log(error);
     return {
       title:
         "Beach Ticket - Compre Ingressos Online para Eventos, Shows e Espetáculos",

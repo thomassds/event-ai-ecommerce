@@ -47,6 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     };
   } catch (error) {
+    console.log(error);
     return {
       title:
         "Beach Ticket - Compre Ingressos Online para Eventos, Shows e Espetáculos",

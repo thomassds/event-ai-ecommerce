@@ -1,14 +1,8 @@
 import {
   ContactInfoCard,
-  ContactInfoItemCard,
   OrderSummaryCard,
   PaymentMethodsCard,
 } from "@/components";
-import {
-  EnvelopeIcon,
-  IdentificationCardIcon,
-  WhatsappLogoIcon,
-} from "@phosphor-icons/react/ssr";
 
 import { type Metadata } from "next";
 
@@ -65,8 +59,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Checkout() {
-  const isLoading = false;
-
   return (
     <div className="flex-1 overflow-y-auto p-2 pt-6 space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-10 lg:container">
       {/* Left Column - Mobile: stack vertically, Desktop: left column */}
