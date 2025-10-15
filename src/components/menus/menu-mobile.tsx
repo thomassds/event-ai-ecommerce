@@ -1,23 +1,33 @@
-import { categories } from "@/mocks";
+"use client";
+
 import React from "react";
 import { RenderMenuItem } from "./menu-item";
 import { HeaderMobile } from "../header/header-mobile";
 import { MobileUserInfoCard } from "../cards";
-interface MenuMobileProps {
-  isMenuOpen: boolean;
-  setIsMenuOpen: (isOpen: boolean) => void;
-}
-export const MenuMobile = ({ isMenuOpen, setIsMenuOpen }: MenuMobileProps) => {
-  // Prevent event bubbling to stop background scrolling
+import { useRouter } from "next/navigation";
+import { useAppCategory, useAppUi } from "@/hooks";
+
+export const MenuMobile = () => {
+  const router = useRouter();
+
+  const { handleToggleMenu } = useAppUi();
+  const { categories } = useAppCategory();
+
   const handleMenuScroll = (e: React.UIEvent<HTMLDivElement>) => {
     e.stopPropagation();
+  };
+
+  const onClickUserInfoCard = () => {
+    router.push("/auth");
+
+    handleToggleMenu();
   };
 
   return (
     <nav className="xl:hidden bg-white shadow-lg fixed top-0 left-0 w-full h-screen z-50 flex flex-col">
       {/* <HeaderBanner /> */}
 
-      <HeaderMobile isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <HeaderMobile />
 
       <div
         className="border-t border-gray-200 flex-1 overflow-y-auto"
@@ -28,7 +38,7 @@ export const MenuMobile = ({ isMenuOpen, setIsMenuOpen }: MenuMobileProps) => {
         }}
       >
         <div className="p-4">
-          <MobileUserInfoCard />
+          <MobileUserInfoCard onClick={onClickUserInfoCard} />
         </div>
 
         <hr className="border-gray-200" />
@@ -47,11 +57,15 @@ export const MenuMobile = ({ isMenuOpen, setIsMenuOpen }: MenuMobileProps) => {
             </li> */}
           {/* ) : ( */}
 
-          {categories.map((item) => (
+          {categories?.map((item) => (
             <RenderMenuItem
               item={{
                 label: item.name,
-                href: `/category/${item.id}`,
+                href: `/eventos?category=${item.slug}`,
+                onClick: () => {
+                  router.push(`/eventos?category=${item.slug}`);
+                  handleToggleMenu();
+                },
               }}
               key={item.id}
             />

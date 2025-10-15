@@ -1,5 +1,6 @@
+import { HomePageSkeleton } from "@/components";
 import { Loader } from "@/components/loaders/loader";
-import { useAppTenant } from "@/hooks";
+import { useAppCategory, useAppTenant } from "@/hooks";
 import { ReactNode, useEffect } from "react";
 
 interface Props {
@@ -7,19 +8,29 @@ interface Props {
 }
 export const TenantInitializer = ({ children }: Props) => {
   const { tenant, selectTenantByDomain, isLoadingTenant } = useAppTenant();
+  const { isLoadingCategories, loadCategories, categories } = useAppCategory();
+
+  const handleInitializer = async () => {
+    if (!tenant) {
+      await selectTenantByDomain();
+    }
+
+    if (tenant && !categories) {
+      await loadCategories();
+    }
+  };
 
   useEffect(() => {
-    if (!tenant) {
-      selectTenantByDomain();
-    }
+    handleInitializer();
   }, [tenant, selectTenantByDomain]);
 
   return (
     <>
-      {isLoadingTenant ? (
-        <div className="flex items-center justify-center w-full min-h-screen">
-          <Loader />
-        </div>
+      {isLoadingTenant || isLoadingCategories ? (
+        // <div className="flex items-center justify-center w-full min-h-screen">
+        //   <Loader />
+        // </div>
+        <HomePageSkeleton />
       ) : (
         children
       )}

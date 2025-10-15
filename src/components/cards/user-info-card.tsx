@@ -8,10 +8,11 @@ import {
   GearIcon,
   TicketIcon,
   SignOutIcon,
+  QuestionIcon,
 } from "@phosphor-icons/react/ssr";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Button, IconedButton } from "../buttons";
-import { useAppAuth } from "@/hooks";
+import { useAppAuth, useAppUi } from "@/hooks";
 
 interface UserAccountDropdownProps {
   user: {
@@ -140,6 +141,11 @@ function UserAccountDropdown({ user }: UserAccountDropdownProps) {
       href: "/usuario/meus-ingressos",
       icon: <TicketIcon size={18} aria-hidden="true" />,
     },
+    {
+      label: "Suporte e Contato",
+      href: "/contato",
+      icon: <QuestionIcon size={18} aria-hidden="true" />,
+    },
     // Removido: Reembolsos deve aparecer apenas em Suporte e Contato
     {
       label: "Sair",
@@ -258,15 +264,12 @@ export function UserInfo() {
   return <UserAccountDropdown user={user} />;
 }
 
-export function MobileUserInfoCard() {
+export function MobileUserInfoCard({ onClick }: { onClick: () => void }) {
+  const { handleToggleMenu } = useAppUi();
   const { isLoggedIn, user, isLoading, signOut } = useAppAuth();
 
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const handleGoToLogin = () => {
-    router.push("/auth");
-  };
 
   const handleLogout = async () => {
     try {
@@ -277,8 +280,14 @@ export function MobileUserInfoCard() {
     }
   };
 
-  const handleMenuItemClick = () => {
-    if (!isLoggedIn) router.push("/auth");
+  const onMenuItemClick = (href: string) => {
+    if (!isLoggedIn) {
+      router.push("/auth");
+    } else {
+      router.push(href);
+    }
+
+    handleToggleMenu();
   };
 
   if (isLoading) {
@@ -298,7 +307,7 @@ export function MobileUserInfoCard() {
       <Button
         type="button"
         variant="ghost"
-        onClick={handleGoToLogin}
+        onClick={onClick}
         className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
       >
         <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
@@ -345,6 +354,11 @@ export function MobileUserInfoCard() {
       href: "/usuario/meus-ingressos",
       icon: <TicketIcon size={18} aria-hidden="true" />,
     },
+    {
+      label: "Suporte e Contato",
+      href: "/contato",
+      icon: <QuestionIcon size={18} aria-hidden="true" />,
+    },
   ];
 
   return (
@@ -377,17 +391,17 @@ export function MobileUserInfoCard() {
       {isExpanded && (
         <div className="ml-4 space-y-1">
           {mobileMenuItems.map((item) => (
-            <Link
+            <button
               key={item.href}
-              href={item.href}
-              onClick={handleMenuItemClick}
-              className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
+              type="button"
+              onClick={() => onMenuItemClick(item.href)}
+              className="cursor-pointer w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
             >
               <span className="text-sm text-gray-700">{item.label}</span>
               <span className="text-[#5400D6]" aria-hidden="true">
                 {item.icon}
               </span>
-            </Link>
+            </button>
           ))}
           <button
             type="button"

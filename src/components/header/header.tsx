@@ -4,9 +4,11 @@ import { useState } from "react";
 import { MenuMobile } from "../menus";
 import { HeaderDesktop } from "./header-desktop";
 import { HeaderMobile } from "./header-mobile";
+import { useAppUi } from "@/hooks";
 
 export const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isMenuOpen } = useAppUi();
+
   return (
     <>
       <div className="w-full hidden xl:block">
@@ -14,11 +16,9 @@ export const Header = () => {
       </div>
 
       <div className="xl:hidden">
-        <HeaderMobile isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+        <HeaderMobile />
 
-        {isMenuOpen && (
-          <MenuMobile isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-        )}
+        {isMenuOpen && <MenuMobile />}
       </div>
     </>
   );

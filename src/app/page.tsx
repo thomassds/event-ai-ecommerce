@@ -1,6 +1,7 @@
-import { EventCard } from "@/components";
+import { EventCard, EventList, HomePageSkeleton } from "@/components";
 import { events } from "@/mocks";
 import { type Metadata } from "next";
+import { Suspense } from "react";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -57,16 +58,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Home() {
   return (
-    <div className="w-full flex flex-col">
-      <div className="w-full mx-auto flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Eventos</h1>
+    <Suspense fallback={<HomePageSkeleton />}>
+      <div className="w-full flex flex-col">
+        <div className="w-full mx-auto flex flex-col gap-4">
+          <h1 className="text-2xl font-bold">Eventos</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {events.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
+          <EventList />
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }

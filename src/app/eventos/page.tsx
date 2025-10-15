@@ -3,6 +3,7 @@ import {
   EventSearchBreadcrumb,
   VerticalBanners,
   EventsPageSkeleton,
+  EventList,
 } from "@/components";
 import { banners, events } from "@/mocks";
 import { type Metadata } from "next";
@@ -72,11 +73,7 @@ export default async function Events() {
           <div className="flex gap-4 justify-between">
             {/* <EventFilter /> */}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {events.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </div>
+            <EventList />
 
             <div className="hidden xl:block w-60">
               <VerticalBanners

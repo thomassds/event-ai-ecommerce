@@ -5,17 +5,11 @@ import { useEffect, useState } from "react";
 import { Button } from "../buttons";
 import { SearchInput } from "../inputs";
 import { useRouter } from "next/navigation";
-import { MenuMobile } from "../menus";
+import { useAppUi } from "@/hooks";
 
-interface HeaderMobileProps {
-  isMenuOpen: boolean;
-  setIsMenuOpen: (isOpen: boolean) => void;
-}
-export const HeaderMobile = ({
-  isMenuOpen,
-  setIsMenuOpen,
-}: HeaderMobileProps) => {
+export const HeaderMobile = () => {
   const router = useRouter();
+  const { handleToggleMenu, isMenuOpen } = useAppUi();
 
   return (
     <div className="xl:hidden bg-[#5400D6] p-4 flex flex-col gap-4">
@@ -37,7 +31,7 @@ export const HeaderMobile = ({
             <li>
               <Button
                 variant="ghost"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                onClick={handleToggleMenu}
                 className="text-white hover:bg-white/10 hover:text-white transition-colors"
               >
                 {isMenuOpen ? (

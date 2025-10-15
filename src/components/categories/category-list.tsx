@@ -3,16 +3,10 @@
 import { useAppCategory } from "@/hooks";
 import { Category } from "@/interfaces";
 import Link from "next/link";
-import { useLayoutEffect } from "react";
 
 export const CategoryList = () => {
-  const { categories, loadCategories } = useAppCategory();
+  const { categories } = useAppCategory();
 
-  useLayoutEffect(() => {
-    if (!categories) {
-      loadCategories();
-    }
-  }, [categories]);
   return (
     <nav
       className="bg-white border-b border-gray-200"

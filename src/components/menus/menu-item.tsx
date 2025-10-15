@@ -3,6 +3,7 @@ import Link from "next/link";
 interface MenuItem {
   label: string;
   href: string;
+  onClick: () => void;
 }
 export const RenderMenuItem = ({
   item,
@@ -15,13 +16,13 @@ export const RenderMenuItem = ({
 
   return (
     <li key={item.href}>
-      <Link
-        href={item.href}
+      <button
+        onClick={item.onClick}
         className={`block py-3 px-4 text-neutral-700 hover:bg-brand-50 hover:text-brand-700 transition-colors duration-200 rounded-lg font-medium`}
         style={{ paddingLeft: `${16 + paddingLeft}px` }}
       >
         {item.label}
-      </Link>
+      </button>
     </li>
   );
 };
