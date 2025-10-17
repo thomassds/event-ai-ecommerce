@@ -16,6 +16,7 @@ export const TenantInitializer = ({ children }: Props) => {
     }
 
     if (tenant && !categories) {
+      console.log("loading categories...");
       await loadCategories();
     }
   };
@@ -26,7 +27,7 @@ export const TenantInitializer = ({ children }: Props) => {
 
   return (
     <>
-      {isLoadingTenant || isLoadingCategories ? (
+      {isLoadingTenant || !categories || isLoadingCategories ? (
         // <div className="flex items-center justify-center w-full min-h-screen">
         //   <Loader />
         // </div>
