@@ -28,7 +28,7 @@ export const useAppCategory = (): UseAppCategory => {
 
     const response = await getCategoriesAction();
 
-    dispatch(setCategories(response));
+    dispatch(setCategories(response || []));
 
     setIsLoadingCategories(false);
   };

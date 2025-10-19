@@ -1,7 +1,6 @@
 import { HomePageSkeleton } from "@/components";
-import { Loader } from "@/components/loaders/loader";
 import { useAppCategory, useAppTenant } from "@/hooks";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 interface Props {
   children: ReactNode;
@@ -16,7 +15,6 @@ export const TenantInitializer = ({ children }: Props) => {
     }
 
     if (tenant && !categories) {
-      console.log("loading categories...", categories);
       await loadCategories();
     }
   };
