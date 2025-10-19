@@ -16,7 +16,7 @@ export const TenantInitializer = ({ children }: Props) => {
     }
 
     if (tenant && !categories) {
-      console.log("loading categories...");
+      console.log("loading categories...", categories);
       await loadCategories();
     }
   };
