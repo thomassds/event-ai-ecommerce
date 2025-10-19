@@ -14,14 +14,14 @@ export const TenantInitializer = ({ children }: Props) => {
       await selectTenantByDomain();
     }
 
-    if (tenant && !categories) {
+    if (tenant && typeof categories === "undefined") {
       await loadCategories();
     }
   };
 
   useEffect(() => {
     handleInitializer();
-  }, [tenant, selectTenantByDomain]);
+  }, [tenant]);
 
   return (
     <>
