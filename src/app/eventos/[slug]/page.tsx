@@ -12,24 +12,36 @@ import {
 } from "@/components";
 import { notFound } from "next/navigation";
 import { categories, eventsDetails, tickets } from "@/mocks";
-import { EventDetails, TicketOption } from "@/interfaces";
+import { Event, TicketOption } from "@/interfaces";
 import { EventVideoCard } from "@/components/cards/event-video-card";
+import { selectEventBySlugAction, selectTenantByDomainAction } from "@/actions";
+import { headers } from "next/headers";
 
 export default async function EventDetail({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  const headersList = await headers();
+  const host = headersList.get("host") || "localhost";
+  const domain = host.split(":")[0];
 
+  const tenant = await selectTenantByDomainAction(domain);
+  if (!tenant) {
+    notFound();
+  }
+
+  const { slug } = await params;
   if (!slug || typeof slug !== "string") {
     notFound();
   }
 
-  const event = eventsDetails.find((evt) => evt.slug === slug);
+  const event = await selectEventBySlugAction(slug, tenant.id);
   if (!event) {
     notFound();
   }
+
+  console.log(event);
 
   return (
     <div className="w-full flex flex-col">
@@ -38,14 +50,14 @@ export default async function EventDetail({
           <div className="md:hidden px-4 py-1 border-b border-gray-300">
             <div className="max-w-7xl mx-auto">
               <SalesCountdownMobileCard
-                endDate={event.salesEndDate}
+                endDate={event.endSaleAt}
                 title="Término das vendas online:"
               />
             </div>
           </div>
 
           <EventBreadcrumb
-            eventTitle={event.title}
+            eventTitle={event.name}
             category={categories[0].name || "Eventos"}
           />
 
@@ -53,16 +65,16 @@ export default async function EventDetail({
             <Banners
               banners={[
                 {
-                  url: event.image,
-                  alt: event.title,
-                  title: event.title,
-                  description: `Imagem do evento ${event.title}`,
+                  url: event.banner || "/events/beach02.jpg",
+                  alt: event.name,
+                  title: event.name,
+                  description: `Imagem do evento ${event.name}`,
                   priority: true,
                 },
               ]}
               autoPlay={false}
               className="rounded-lg overflow-hidden"
-              ariaLabel={`Banner do evento ${event.title}`}
+              ariaLabel={`Banner do evento ${event.name}`}
             />
           </div>
 
@@ -93,7 +105,7 @@ export default async function EventDetail({
                 error={null}
               />
             </div> */}
-            {event.videoData && (
+            {/* {event.videoData && (
               <div className="md:px-6 lg:px-0">
                 <EventVideoCard
                   videoUrl={event.videoData.videoUrl}
@@ -103,7 +115,7 @@ export default async function EventDetail({
                   error={null}
                 />
               </div>
-            )}
+            )} */}
           </div>
         </div>
 
@@ -121,7 +133,7 @@ const MobileLayout = ({
   event,
   tickets,
 }: {
-  event: EventDetails;
+  event: Event;
   tickets: TicketOption[];
 }) => {
   return (
@@ -137,7 +149,7 @@ const TabletLayout = ({
   event,
   tickets,
 }: {
-  event: EventDetails;
+  event: Event;
   tickets: TicketOption[];
 }) => {
   return (
@@ -172,7 +184,7 @@ const DesktopLayout = ({
   event,
   tickets,
 }: {
-  event: EventDetails;
+  event: Event;
   tickets: TicketOption[];
 }) => {
   return (

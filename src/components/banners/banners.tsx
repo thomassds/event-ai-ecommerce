@@ -41,8 +41,8 @@ export function Banners({
     <div className={`relative w-full h-[280px] md:h-[400px] ${className}`}>
       <Image
         src={currentBanner.url}
-        alt={currentBanner.alt}
-        title={currentBanner.title}
+        alt={currentBanner.alt || "Banner promocional"}
+        title={currentBanner.title || currentBanner.alt || "Banner promocional"}
         fill
         className="object-cover object-center transition-opacity duration-500"
         quality={100}

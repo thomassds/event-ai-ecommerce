@@ -13,7 +13,9 @@ import {
   WhatsappLogoIcon,
 } from "@phosphor-icons/react";
 import { toast } from "sonner";
-import { EventDetails } from "@/interfaces";
+import { Event } from "@/interfaces";
+import { showFormatRangeDate } from "@/utils/format-date";
+import { showZipCode } from "@/utils/format-zipCode";
 
 interface TimeLeft {
   days: number;
@@ -23,11 +25,11 @@ interface TimeLeft {
 }
 
 interface EventInfoCardProps {
-  event: EventDetails;
+  event: Event;
   showCountdown?: boolean;
 }
 
-const calculateTimeLeft = (endDate: string): TimeLeft => {
+const calculateTimeLeft = (endDate: string | Date): TimeLeft => {
   const now = new Date().getTime();
   const target = new Date(endDate).getTime();
   const difference = target - now;
@@ -49,15 +51,15 @@ export const EventInfoCard = memo(
   ({ event, showCountdown = false }: EventInfoCardProps) => {
     const [timeLeft, setTimeLeft] = useState<TimeLeft>(() =>
       showCountdown
-        ? calculateTimeLeft(event.salesEndDate)
+        ? calculateTimeLeft(event.endSaleAt)
         : { days: 0, hours: 0, minutes: 0, seconds: 0 }
     );
 
     const updateTimer = useCallback(() => {
       if (showCountdown) {
-        setTimeLeft(calculateTimeLeft(event.salesEndDate));
+        setTimeLeft(calculateTimeLeft(event.endSaleAt));
       }
-    }, [event.salesEndDate, showCountdown]);
+    }, [event.endSaleAt, showCountdown]);
 
     useEffect(() => {
       if (showCountdown) {
@@ -78,7 +80,7 @@ export const EventInfoCard = memo(
 
     const handleShare = async (platform?: string) => {
       const url = window.location.href;
-      const title = event.title;
+      const title = event.name;
       const text = `Confira este evento: ${title}`;
 
       if (platform === "instagram") {
@@ -128,20 +130,23 @@ export const EventInfoCard = memo(
             className="text-lg font-semibold leading-6 m-0 font-[Montserrat]"
             style={{ color: "#5400D6" }}
           >
-            {event.title}
+            {event.name}
           </h1>
 
           <div className="flex items-center w-full gap-2 mt-7">
             <CalendarIcon />
             <span className="text-gray-500 text-sm">
-              {event.date.formatted}
+              {showFormatRangeDate(event.startAt, event.endAt)}
             </span>
           </div>
 
           <div className="flex items-center w-full gap-2 mt-7">
             <MapPinIcon />
             <span className="text-gray-500 text-sm">
-              {event.location.city}, {event.location.state}
+              {event?.house?.streetName}, {event?.house?.streetNumber} -
+              {event?.house?.district},{event?.house?.city} -{" "}
+              {event?.house?.state} - {showZipCode(event?.house?.zipcode)}
+              endereço do evento
             </span>
           </div>
 
@@ -248,12 +253,12 @@ export const EventInfoCard = memo(
   (prevProps, nextProps) => {
     return (
       prevProps.event.id === nextProps.event.id &&
-      prevProps.event.title === nextProps.event.title &&
-      prevProps.event.date.start === nextProps.event.date.start &&
-      prevProps.event.date.end === nextProps.event.date.end &&
-      prevProps.event.location.city === nextProps.event.location.city &&
-      prevProps.event.location.state === nextProps.event.location.state &&
-      prevProps.event.salesEndDate === nextProps.event.salesEndDate &&
+      prevProps.event.name === nextProps.event.name &&
+      prevProps.event.startAt === nextProps.event.startAt &&
+      prevProps.event.endAt === nextProps.event.endAt &&
+      // prevProps.event.location.city === nextProps.event.location.city &&
+      // prevProps.event.location.state === nextProps.event.location.state &&
+      prevProps.event.endSaleAt === nextProps.event.endSaleAt &&
       prevProps.showCountdown === nextProps.showCountdown
     );
   }

@@ -7,3 +7,4 @@ export * from "./category";
 export * from "./payment-method";
 export * from "./user";
 export * from "./tenant";
+export * from "./paginated-response";

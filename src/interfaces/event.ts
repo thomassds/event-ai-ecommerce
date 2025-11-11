@@ -1,15 +1,28 @@
+import { EventStatusEnum } from "@/enums";
+import { House } from "./house";
+
 export interface Event {
-  id: number;
+  id: string;
+  tenantId: string;
+  companyId: string;
+  categoryId?: string;
+  houseId?: string;
   name: string;
+  description: string;
   slug: string;
-  startDate: string;
-  endDate: string;
-  salesEndDate: string;
-  location: string;
-  price: number;
-  image: string;
-  title: string;
-  link: string;
+  thumbnail?: string;
+  banner?: string;
+  startAt: Date;
+  endAt: Date;
+  startSaleAt: Date;
+  endSaleAt: Date;
+  openDoorAt?: Date;
+  isPublic: boolean;
+  showWebsite?: string;
+  status: EventStatusEnum;
+  house: House;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface EventDetails {

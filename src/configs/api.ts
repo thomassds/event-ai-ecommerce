@@ -12,7 +12,7 @@ apiClient.interceptors.request.use(
     const { token } = state.auth;
     const { tenant } = state.tenant;
 
-    if (!tenant) {
+    if (!tenant && typeof window !== "undefined") {
       const storageTenant = localStorage.getItem("tenant");
 
       if (storageTenant) {

@@ -5,6 +5,7 @@ import { PlusIcon, MinusIcon } from "@phosphor-icons/react";
 import { formatCurrency } from "@/utils/format-currency";
 import {
   DateOption,
+  Event,
   EventDetails,
   LotTaxInfo,
   TicketOption,
@@ -66,7 +67,7 @@ const VariationTaxInfo = ({ lot }: { lot: LotTaxInfo }) => {
 
 interface TicketSelectorClientProps {
   tickets: TicketOption[];
-  event: EventDetails;
+  event: Event;
   availableDates?: DateOption[];
   isUserAuthenticated?: boolean;
   clientId?: number;
@@ -373,13 +374,14 @@ export const TicketSelectorClient = ({
         </div>
       </div>
 
+      {/* 
       {event.imageMapEvent && (
         <div className={"mb-8"}>
           <div className="p-4 border border-gray-200 rounded-lg">
             <div className="relative w-full bg-white">
               <Image
                 src={event.imageMapEvent}
-                alt={`Mapa do ${event.title}`}
+                alt={`Mapa do ${event.name}`}
                 width={400}
                 height={300}
                 style={{ height: "auto" }}
@@ -389,7 +391,7 @@ export const TicketSelectorClient = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
       <div className="mb-8">
         <GenericAccordion
           items={accordionItems}

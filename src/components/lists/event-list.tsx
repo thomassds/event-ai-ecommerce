@@ -1,20 +1,32 @@
 "use client";
 
-import { events } from "@/mocks";
 import { EventCard } from "../cards";
 import { EventCardSkeleton } from "../skeletons";
 import { useEffect, useState } from "react";
+import { useAppEvent } from "@/hooks";
+import { Event } from "@/interfaces";
 
 export const EventList = () => {
+  const { selectEventsUpcoming } = useAppEvent();
+
   const [isLoading, setIsLoading] = useState(false);
+  const [events, setEvents] = useState<Event[]>([]);
+
+  const handleLoadEvents = async () => {
+    setIsLoading(true);
+    const selectEvents = await selectEventsUpcoming();
+
+    setEvents(selectEvents.data);
+
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    handleLoadEvents();
 
-    return () => clearTimeout(timer);
+    return () => {
+      setEvents([]);
+    };
   }, []);
 
   if (isLoading) {

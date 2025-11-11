@@ -1,12 +1,12 @@
 "use client";
 
-import { DateOption, EventDetails } from "@/interfaces";
+import { DateOption, Event, EventDetails } from "@/interfaces";
 import { TicketOption } from "@/interfaces/ticket";
 import { TicketSelectorErrorBoundary } from "../";
 import { TicketSelectorClient } from "../selectors";
 
 interface EventTicketCardProps {
-  event: EventDetails;
+  event: Event;
   tickets: TicketOption[];
   dates: DateOption[];
 }

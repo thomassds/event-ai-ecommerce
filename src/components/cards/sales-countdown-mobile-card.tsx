@@ -11,12 +11,12 @@ interface TimeLeft {
 }
 
 interface SalesCountdownProps {
-  endDate: string;
+  endDate: Date | string;
   title?: string;
   className?: string;
 }
 
-const calculateTimeLeft = (endDate: string): TimeLeft => {
+const calculateTimeLeft = (endDate: Date | string): TimeLeft => {
   const difference = Math.max(0, +new Date(endDate) - Date.now());
 
   return {
