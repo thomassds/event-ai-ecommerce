@@ -4,9 +4,11 @@ import { useState } from "react";
 import { ContactForm, PersonalDataForm } from "../forms";
 import { CircularStepIndicator } from "../steps";
 import { Card, CardContent } from "./card";
+import { ICreateUser } from "@/interfaces";
 
 export const RegisterCard = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
+  const [newUser, setNewUser] = useState<ICreateUser | null>(null);
 
   return (
     <Card className="w-full not-lg:max-w-md lg:min-w-192 bg-white rounded-2xl shadow-2xl">
@@ -30,10 +32,20 @@ export const RegisterCard = () => {
         </div>
 
         {currentStep === 1 && (
-          <PersonalDataForm onStepChange={setCurrentStep} />
+          <PersonalDataForm
+            onStepChange={setCurrentStep}
+            newUser={newUser}
+            setNewUser={setNewUser}
+          />
         )}
 
-        {currentStep === 2 && <ContactForm setCurrentStep={setCurrentStep} />}
+        {currentStep === 2 && (
+          <ContactForm
+            setCurrentStep={setCurrentStep}
+            newUser={newUser}
+            setNewUser={setNewUser}
+          />
+        )}
       </CardContent>
     </Card>
   );

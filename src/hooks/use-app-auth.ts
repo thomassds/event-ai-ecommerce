@@ -1,11 +1,15 @@
 "use client";
 
-import { signInAction } from "@/actions";
+import {
+  checkEmailExistsAction,
+  registerAction,
+  signInAction,
+} from "@/actions";
 import { useAppSelector } from "./use-app-selector";
 import { useAppDispatch } from "./use-app-dispatch";
 import { setIsLoggedIn, setToken, setUser } from "@/store/slices/auth-slice";
 import { jwtDecode } from "jwt-decode";
-import { User } from "@/interfaces";
+import { ICreateUser, User } from "@/interfaces";
 import { useState } from "react";
 
 interface UseAppAuthReturn {
@@ -14,6 +18,8 @@ interface UseAppAuthReturn {
   user: User | null;
   isLoading: boolean;
   signOut: () => void;
+  register: (data: ICreateUser) => Promise<void>;
+  checkIfEmailExists: (email: string) => Promise<boolean>;
 }
 
 export const useAppAuth = (): UseAppAuthReturn => {
@@ -36,11 +42,7 @@ export const useAppAuth = (): UseAppAuthReturn => {
       throw new Error("Falha ao autenticar usuário.");
     }
 
-    dispatch(setToken(response.token));
-    const user: User = jwtDecode(response.token);
-
-    dispatch(setUser(user));
-    dispatch(setIsLoggedIn(true));
+    handleToken(response.token);
 
     setIsLoading(false);
   };
@@ -58,5 +60,54 @@ export const useAppAuth = (): UseAppAuthReturn => {
     }
   };
 
-  return { isLoggedIn, signIn, user, isLoading, signOut };
+  const register = async (data: ICreateUser) => {
+    setIsLoading(true);
+    try {
+      const response = await registerAction(data);
+
+      if (!response?.data?.token) {
+        throw new Error("Falha ao autenticar usuário.");
+      }
+
+      handleToken(response.data.token);
+    } catch (error) {
+      console.error("Registration error:", error);
+      throw new Error("Falha ao criar usuário.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const checkIfEmailExists = async (email: string): Promise<boolean> => {
+    try {
+      const response = await checkEmailExistsAction(email);
+
+      if (!response?.data) {
+        throw new Error("Falha ao verificar existência de email.");
+      }
+
+      return response?.data?.exists || false;
+    } catch (error) {
+      console.error("Error checking email existence:", error);
+      throw new Error("Falha ao verificar existência de email.");
+    }
+  };
+
+  const handleToken = (token: string) => {
+    dispatch(setToken(token));
+    const user: User = jwtDecode(token);
+
+    dispatch(setUser(user));
+    dispatch(setIsLoggedIn(true));
+  };
+
+  return {
+    isLoggedIn,
+    signIn,
+    user,
+    isLoading,
+    signOut,
+    register,
+    checkIfEmailExists,
+  };
 };

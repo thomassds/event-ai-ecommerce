@@ -11,11 +11,13 @@ import {
   ContactValues,
   contactWithValidationSchema,
 } from "@/schemas/auth/register";
-import { resolve } from "path/win32";
 import { Form, FormField } from "./form";
 import { Checkbox, InputForm, MaskedInput } from "../inputs";
 import { Label, PasswordStrength } from "../labels";
 import { Button } from "../buttons";
+import { ICreateUser } from "@/interfaces/user";
+import { unformatPhoneNumber } from "@/utils/format-phone";
+import { useAppAuth } from "@/hooks";
 
 const getState = (error?: string, touched?: boolean) => {
   if (!touched) return "default";
@@ -52,43 +54,29 @@ const getPasswordConfirmError = (
 
 interface ContactProps {
   setCurrentStep: (step: number) => void;
+  newUser: ICreateUser | null;
+  setNewUser: (user: ICreateUser | null) => void;
 }
 
-export function ContactForm({ setCurrentStep }: ContactProps) {
+export function ContactForm({
+  setCurrentStep,
+  newUser,
+  setNewUser,
+}: ContactProps) {
   const router = useRouter();
+
+  const { register, checkIfEmailExists } = useAppAuth();
 
   const [isHydrated, setIsHydrated] = useState(false);
   const [hasEmailError, setHasEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
 
   // Handle hydration
   useEffect(() => {
     setIsHydrated(true);
   }, []);
-
-  // const { execute: verifyEmail, isPending: isVerifyingEmail } = useAction(
-  //   verifyEmailAction,
-  //   {
-  //     onSuccess: (data) => {
-  //       if (data?.data?.code === "EMAIL_ALREADY_REGISTERED") {
-  //         const errorMsg =
-  //           data.data.message || "Este email já está registrado.";
-  //         setEmailErrorMessage(errorMsg);
-  //         setHasEmailError(true);
-  //       } else {
-  //         setEmailErrorMessage("");
-  //         setHasEmailError(false);
-  //       }
-  //     },
-  //     onError: (error) => {
-  //       const errorMessage =
-  //         error.error?.serverError || "Erro ao verificar email";
-  //       setEmailErrorMessage(errorMessage);
-  //       setHasEmailError(true);
-  //     },
-  //   }
-  // );
 
   const form = useForm({
     resolver: zodResolver(contactWithValidationSchema),
@@ -116,23 +104,23 @@ export function ContactForm({ setCurrentStep }: ContactProps) {
 
   const password = form.watch("password");
 
-  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
   const verifyEmail = async ({ email }: { email: string }) => {
     try {
       setIsVerifyingEmail(true);
-      const response = await new Promise<{ isRegistered: boolean }>(
-        (resolve) => {
-          setTimeout(() => {
-            // For demonstration, let's say "email@example.com" is already registered
-            const isRegistered = email === "email@example.com";
-            resolve({ isRegistered });
-          }, 1000);
-        }
-      );
-      return response;
+      const isRegistered = await checkIfEmailExists(email);
+
+      if (isRegistered) {
+        const errorMsg = "Este email já está registrado.";
+        setEmailErrorMessage(errorMsg);
+        setHasEmailError(true);
+      } else {
+        setEmailErrorMessage("");
+        setHasEmailError(false);
+      }
     } catch (error) {
-      console.error("Error verifying email:", error);
-      throw error;
+      const errorMessage = "Erro ao verificar email";
+      setEmailErrorMessage(errorMessage);
+      setHasEmailError(true);
     } finally {
       setIsVerifyingEmail(false);
     }
@@ -154,53 +142,30 @@ export function ContactForm({ setCurrentStep }: ContactProps) {
   };
 
   const onSubmit = async (data: ContactValues) => {
-    console.log("Contact form data:", data);
-    // if (!personalData) {
-    //   toast.error("Dados pessoais não encontrados. Reinicie o cadastro.");
-    //   router.push("/registrar");
-    //   return;
-    // }
+    if (!newUser) {
+      toast.error("Dados pessoais não encontrados. Reinicie o cadastro.");
+      router.push("/registrar");
+      return;
+    }
 
     setIsSubmitting(true);
 
     try {
-      // Combine personal data and contact data
-      // const formData: RegisterFormValues = {
-      //   name: personalData.name || "",
-      //   document: personalData.document || "",
-      //   birthDate: personalData.birthDate,
-      //   typeOfDocument: personalData.typeOfDocument || "CPF",
-      //   nationality: personalData.nationality || "Brasileiro",
-      //   sex: personalData.sex || "M",
-      //   ...data,
-      //   // Optional fields - deixar undefined para não serem enviados
-      //   zipcode: undefined,
-      //   address: undefined,
-      //   number: undefined,
-      //   neighborhood: undefined,
-      //   complement: undefined,
-      //   countryId: undefined,
-      //   stateId: undefined,
-      //   cityId: undefined,
-      //   isPep: false,
-      //   isPublicExposure: false,
-      //   termsAccepted: data.termsAccepted,
-      // };
+      const userData = {
+        ...newUser,
+        email: data.mail,
+        phone: unformatPhoneNumber(data.cellphone),
+        password: data.password,
+      };
 
-      // Transform data for backend
-      // const backendData = transformFormToBackend(formData);
-
-      // Call register API
-      // await authService.signUp(backendData);
-
-      // Update registration store
-      // setContactData(data);
-      // markStepAsCompleted(2);
+      await register(userData);
 
       toast.success(
         "Cadastro realizado com sucesso! Agora você pode fazer login."
       );
-      router.push("/auth");
+
+      setNewUser(null);
+      router.push("/");
     } catch (error) {
       console.error("Registration error:", error);
       const errorMessage =
@@ -411,16 +376,16 @@ export function ContactForm({ setCurrentStep }: ContactProps) {
         </div>
 
         <div className="flex gap-3 pt-4">
-          <Link href="/registrar" className="flex-1">
-            <Button
-              type="button"
-              variant="ghost"
-              className="w-full h-12 text-[16px] text-[#5400D6] font-semibold"
-            >
-              <ArrowLeftIcon size={20} className="mr-2" />
-              Voltar
-            </Button>
-          </Link>
+          <Button
+            type="button"
+            variant="ghost"
+            className="w-full h-12 text-[16px] text-[#5400D6] font-semibold"
+            onClick={() => setCurrentStep(1)}
+          >
+            <ArrowLeftIcon size={20} className="mr-2" />
+            Voltar
+          </Button>
+
           <Button
             type="submit"
             className="flex-1 h-12 text-[16px] font-semibold"

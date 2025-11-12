@@ -3,9 +3,8 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 
-import { formatDocument } from "@/utils/format-document";
+import { formatDocument, unformatDocument } from "@/utils/format-document";
 import {
   personalDataSchema,
   PersonalDataValues,
@@ -14,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "./form";
 import { InputForm, RadioGroup } from "../inputs";
 import { Select } from "../selectors";
 import { Button } from "../buttons";
+import { ICreateUser } from "@/interfaces";
 
 // const nationalityOptions = [
 //   { value: "Brasileiro", label: "Brasileiro" },
@@ -34,17 +34,20 @@ const sexOptions = [
 
 interface PersonalDataFormProps {
   onStepChange: (step: number) => void;
+  newUser: ICreateUser | null;
+  setNewUser: (data: ICreateUser) => void;
 }
 
-export function PersonalDataForm({ onStepChange }: PersonalDataFormProps) {
+export function PersonalDataForm({
+  onStepChange,
+  setNewUser,
+}: PersonalDataFormProps) {
   const [personalData, setPersonalData] = useState<PersonalDataValues | null>(
     null
   );
   const [hasDocumentError, setHasDocumentError] = useState(false);
   const [documentErrorMessage, setDocumentErrorMessage] = useState("");
   const [isVerifyingDocument, setIsVerifyingDocument] = useState(false);
-
-  const router = useRouter();
 
   const form = useForm<PersonalDataValues>({
     resolver: zodResolver(personalDataSchema),
@@ -163,6 +166,11 @@ export function PersonalDataForm({ onStepChange }: PersonalDataFormProps) {
     }
 
     setPersonalData(data);
+
+    setNewUser({
+      name: data.name,
+      taxIdentifier: unformatDocument(data.document),
+    });
 
     onStepChange(2);
   };
