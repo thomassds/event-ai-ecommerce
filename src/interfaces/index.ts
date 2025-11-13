@@ -8,3 +8,5 @@ export * from "./payment-method";
 export * from "./user";
 export * from "./tenant";
 export * from "./paginated-response";
+export * from "./house";
+export * from "./sector";

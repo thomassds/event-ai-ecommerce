@@ -7,16 +7,10 @@ import { TicketSelectorClient } from "../selectors";
 
 interface EventTicketCardProps {
   event: Event;
-  tickets: TicketOption[];
-  dates: DateOption[];
 }
 
-export const EventTicketCard = ({
-  event,
-  tickets,
-  dates,
-}: EventTicketCardProps) => {
-  if (!tickets || tickets.length === 0) {
+export const EventTicketCard = ({ event }: EventTicketCardProps) => {
+  if (!event.sectors || event.sectors.length === 0) {
     return (
       <div className="md:px-0 lg:px-0 mt-6">
         <div className="mb-6">
@@ -39,13 +33,7 @@ export const EventTicketCard = ({
 
   return (
     <TicketSelectorErrorBoundary>
-      <TicketSelectorClient
-        event={event}
-        tickets={tickets}
-        availableDates={dates}
-        isUserAuthenticated={true}
-        clientId={10}
-      />
+      <TicketSelectorClient event={event} />
     </TicketSelectorErrorBoundary>
   );
 };

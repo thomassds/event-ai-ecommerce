@@ -19,6 +19,7 @@ export async function selectEventBySlugAction(
   tenantId?: string
 ): Promise<Event | null> {
   try {
+    console.log("Fetching event with slug:", slug, "for tenantId:", tenantId);
     const { data } = await apiClient.get<{ success: boolean; data: Event }>(
       `/events/slug/${slug}`,
       {

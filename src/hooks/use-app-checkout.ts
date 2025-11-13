@@ -6,12 +6,15 @@ import {
 } from "@/store/slices/checkout-slice";
 import { useAppDispatch } from "./use-app-dispatch";
 import { useAppSelector } from "./use-app-selector";
-import { LotTaxInfo } from "@/interfaces";
+import { Lot, LotTaxInfo, Ticket } from "@/interfaces";
 import { useRouter } from "next/navigation";
 
 interface UseAppCheckoutReturn {
-  lotsSelected: Record<string, LotTaxInfo & { quantitySelected: number }>;
-  addLotSelected: (lot: LotTaxInfo, quantity: number) => void;
+  lotsSelected: Record<
+    string,
+    Lot & { quantitySelected: number; ticketName: string }
+  >;
+  addLotSelected: (lot: Lot, quantity: number, ticket?: Ticket) => void;
   removeLotSelected: (lotId: string) => void;
   calculateResume: () => {
     subtotal: number;
@@ -30,7 +33,7 @@ export const useAppCheckout = (): UseAppCheckoutReturn => {
     (state) => state.checkout
   );
 
-  const addLotSelected = (lot: LotTaxInfo, quantity: number) => {
+  const addLotSelected = (lot: Lot, quantity: number, ticket?: Ticket) => {
     const lotAlreadySelected = lotsSelected[lot.id];
     if (lotAlreadySelected && lotAlreadySelected.quantitySelected > 0) {
       const newlotSelected = {
@@ -38,6 +41,7 @@ export const useAppCheckout = (): UseAppCheckoutReturn => {
         [lot.id]: {
           ...lot,
           quantitySelected: lotAlreadySelected.quantitySelected + quantity,
+          ticketName: lotAlreadySelected.ticketName,
         },
       };
 
@@ -47,7 +51,11 @@ export const useAppCheckout = (): UseAppCheckoutReturn => {
     return dispatch(
       setLotsSelected({
         ...lotsSelected,
-        [lot.id]: { ...lot, quantitySelected: quantity },
+        [lot.id]: {
+          ...lot,
+          quantitySelected: quantity,
+          ticketName: ticket ? ticket.name : "",
+        },
       })
     );
   };
@@ -81,7 +89,7 @@ export const useAppCheckout = (): UseAppCheckoutReturn => {
     }, 0);
 
     const adminTax = Object.values(lotsSelected).reduce((acc, lot) => {
-      if (lot.typeTaxAdm === "P") {
+      if (lot.taxType === "P") {
         const taxAdm = lot.price * (lot.taxAdm / 100);
 
         return acc + taxAdm * lot.quantitySelected;

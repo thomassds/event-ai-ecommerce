@@ -1,5 +1,6 @@
 import { EventStatusEnum } from "@/enums";
 import { House } from "./house";
+import { Sector } from "./sector";
 
 export interface Event {
   id: string;
@@ -20,7 +21,8 @@ export interface Event {
   isPublic: boolean;
   showWebsite?: string;
   status: EventStatusEnum;
-  house: House;
+  house?: House;
+  sectors?: Sector[];
   createdAt: Date;
   updatedAt: Date;
 }

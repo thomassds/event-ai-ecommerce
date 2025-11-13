@@ -6,8 +6,10 @@ import {
 } from "@phosphor-icons/react";
 import { ContactInfoItemCard } from "./contact-info-item-card";
 import { useState } from "react";
+import { useAppAuth } from "@/hooks";
 
 export const ContactInfoCard = () => {
+  const { user } = useAppAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -37,14 +39,14 @@ export const ContactInfoCard = () => {
               <EnvelopeIcon className="text-[#5400D6] w-5 h-5 lg:w-5 lg:h-5" />
             }
             label="Email"
-            value={"teste@teste.com.br"}
+            value={user?.email || "Email não informado"}
           />
           <ContactInfoItemCard
             icon={
               <WhatsappLogoIcon className="text-[#5400D6] w-5 h-5 lg:w-5 lg:h-5" />
             }
             label="Telefone"
-            value={"(00) 0 0000-0000"} // displayData.phone
+            value={user?.phone || "Telefone não informado"}
           />
           <ContactInfoItemCard
             icon={
@@ -55,7 +57,7 @@ export const ContactInfoCard = () => {
               // displayData.document.includes("Não informado")
               // ? "CPF: Não informado"
               // : `CPF: ${displayData.document}`
-              "CPF: 000.000.000-00"
+              user?.taxIdentifier || "Documento: Não informado"
             }
           />
         </div>

@@ -11,9 +11,8 @@ import {
   SalesCountdownMobileCard,
 } from "@/components";
 import { notFound } from "next/navigation";
-import { categories, eventsDetails, tickets } from "@/mocks";
-import { Event, TicketOption } from "@/interfaces";
-import { EventVideoCard } from "@/components/cards/event-video-card";
+import { categories } from "@/mocks";
+import { Event } from "@/interfaces";
 import { selectEventBySlugAction, selectTenantByDomainAction } from "@/actions";
 import { headers } from "next/headers";
 
@@ -40,8 +39,6 @@ export default async function EventDetail({
   if (!event) {
     notFound();
   }
-
-  console.log(event);
 
   return (
     <div className="w-full flex flex-col">
@@ -84,9 +81,9 @@ export default async function EventDetail({
             </div>
           </div>
 
-          <MobileLayout event={event} tickets={tickets} />
-          <TabletLayout event={event} tickets={tickets} />
-          <DesktopLayout event={event} tickets={tickets} />
+          <MobileLayout event={event} />
+          <TabletLayout event={event} />
+          <DesktopLayout event={event} />
 
           <div className="mt-8 space-y-8">
             {event.description && (
@@ -129,29 +126,17 @@ export default async function EventDetail({
   );
 }
 
-const MobileLayout = ({
-  event,
-  tickets,
-}: {
-  event: Event;
-  tickets: TicketOption[];
-}) => {
+const MobileLayout = ({ event }: { event: Event }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-4 lg:px-8 mt-8 md:mt-2">
       <div className="block md:hidden space-y-8">
-        <EventTicketCard event={event} tickets={tickets} dates={[]} />
+        <EventTicketCard event={event} />
       </div>
     </div>
   );
 };
 
-const TabletLayout = ({
-  event,
-  tickets,
-}: {
-  event: Event;
-  tickets: TicketOption[];
-}) => {
+const TabletLayout = ({ event }: { event: Event }) => {
   return (
     <div
       className="hidden md:block lg:hidden"
@@ -163,7 +148,7 @@ const TabletLayout = ({
     >
       <div className="space-y-6 w-full">
         <div className="w-full">
-          <EventTicketCard event={event} tickets={tickets} dates={[]} />
+          <EventTicketCard event={event} />
         </div>
 
         <div className="bg-white border border-gray-200 rounded-lg shadow-lg w-full">
@@ -180,17 +165,11 @@ const TabletLayout = ({
   );
 };
 
-const DesktopLayout = ({
-  event,
-  tickets,
-}: {
-  event: Event;
-  tickets: TicketOption[];
-}) => {
+const DesktopLayout = ({ event }: { event: Event }) => {
   return (
     <div className="hidden lg:grid lg:grid-cols-3 lg:gap-12 xl:gap-16">
       <div className="lg:col-span-2 space-y-8">
-        <EventTicketCard event={event} tickets={tickets} dates={[]} />
+        <EventTicketCard event={event} />
       </div>
 
       <div className="lg:col-span-1 lg:self-start lg:sticky lg:top-[240px] space-y-6 z-10">

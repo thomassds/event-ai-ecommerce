@@ -123,7 +123,7 @@ export const OrderSummaryCard = ({
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <h4 className="text-sm font-medium text-gray-900 leading-tight">
-                          {item.name}
+                          {item.ticketName}
                         </h4>
                         {item.name && (
                           <p className="text-xs text-gray-600 mt-1">

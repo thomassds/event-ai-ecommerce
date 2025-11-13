@@ -1,8 +1,11 @@
-import { LotTaxInfo } from "@/interfaces";
+import { Lot } from "@/interfaces";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type CheckoutState = {
-  lotsSelected: Record<string, LotTaxInfo & { quantitySelected: number }>;
+  lotsSelected: Record<
+    string,
+    Lot & { quantitySelected: number; ticketName: string }
+  >;
   isProcessingPayment: boolean;
 };
 
@@ -18,7 +21,7 @@ const checkoutSlice = createSlice({
     setLotsSelected(
       state,
       action: PayloadAction<
-        Record<string, LotTaxInfo & { quantitySelected: number }>
+        Record<string, Lot & { quantitySelected: number; ticketName: string }>
       >
     ) {
       state.lotsSelected = action.payload;
